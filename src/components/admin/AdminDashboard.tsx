@@ -189,7 +189,7 @@ export function AdminDashboard() {
       const { error } = await supabase
         .from('system_config')
         .upsert({
-          id: '1',
+          id: '00000000-0000-4000-8000-000000000001',
           points_per_dollar: systemConfig.points_per_dollar,
           points_per_dollar_value: systemConfig.points_per_dollar_value,
           updated_at: new Date().toISOString()
