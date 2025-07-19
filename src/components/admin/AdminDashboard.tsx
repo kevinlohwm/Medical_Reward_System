@@ -395,7 +395,7 @@ export function AdminDashboard() {
                   Campaign Management
                   <Dialog open={isPromotionDialogOpen} onOpenChange={setIsPromotionDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button>
+                      <Button type="button" onClick={() => setIsPromotionDialogOpen(true)}>
                         <Plus className="h-4 w-4 mr-2" />
                         Create Promotion
                       </Button>
