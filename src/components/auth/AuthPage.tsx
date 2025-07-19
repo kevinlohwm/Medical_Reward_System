@@ -6,43 +6,23 @@ export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
 
   return (
-    <div className="min-h-screen relative overflow-hidden animated-bg">
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        {/* Floating holographic shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 cyber-gradient-1 rounded-3xl opacity-30 float neon-glow" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-40 right-32 w-24 h-24 cyber-gradient-3 rounded-full opacity-40 float-delayed neon-glow-green" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-32 w-40 h-40 cyber-gradient-4 rounded-2xl opacity-35 float neon-glow-purple" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-20 right-20 w-28 h-28 cyber-gradient-5 rounded-full opacity-30 float-delayed pulse-glow" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-1/2 left-10 w-16 h-16 cyber-gradient-2 rounded-xl opacity-25 float neon-glow-pink" style={{ animationDelay: '3s' }}></div>
-        <div className="absolute top-1/3 right-10 w-20 h-20 cyber-gradient-6 rounded-2xl opacity-30 float-delayed" style={{ animationDelay: '4s' }}></div>
-        
-        {/* Particle effects */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-ping"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Grid overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="w-full h-full" style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 relative overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="w-full h-full" style={{
+          backgroundImage: `
+            radial-gradient(circle at 25% 25%, hsl(var(--clinic-teal)) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, hsl(var(--clinic-coral)) 0%, transparent 50%)
+          `,
+        }}></div>
+      </div>
+      
+      {/* Floating geometric shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-gradient-to-br from-teal-100 to-teal-200 opacity-30 animate-pulse"></div>
+        <div className="absolute top-40 right-32 w-24 h-24 rounded-lg bg-gradient-to-br from-coral-100 to-coral-200 opacity-40 transform rotate-45"></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200 opacity-25"></div>
+        <div className="absolute bottom-20 right-20 w-28 h-28 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-200 opacity-30"></div>
       </div>
       
       {/* Main content */}
@@ -50,24 +30,35 @@ export function AuthPage() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8 animate-fade-in">
-            <div className="relative mb-6">
-              <h1 className="text-6xl font-bold mb-3 tracking-tight holographic-text">
-                MedRewards
+            <div className="mb-6">
+              <h1 className="text-5xl font-bold mb-3 tracking-tight heading-primary">
+                <span className="bg-gradient-to-r from-teal-600 to-teal-700 bg-clip-text text-transparent">
+                  MedRewards
+                </span>
               </h1>
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl"></div>
+              <div className="w-16 h-1 bg-gradient-to-r from-teal-500 to-coral-500 rounded-full mx-auto"></div>
             </div>
-            <p className="text-white text-2xl font-bold mb-3 neon-glow">
+            <p className="text-gray-700 text-xl font-semibold mb-3">
               Healthcare Loyalty Program
             </p>
-            <p className="text-white/80 text-lg mb-6">
+            <p className="text-gray-600 text-lg mb-6">
               Earn points, save money, get rewarded
             </p>
             
-            {/* Decorative elements */}
-            <div className="flex justify-center items-center gap-4">
-              <div className="w-3 h-3 cyber-gradient-2 rounded-full pulse-glow"></div>
-              <div className="w-4 h-4 cyber-gradient-3 rounded-full pulse-glow" style={{ animationDelay: '0.5s' }}></div>
-              <div className="w-3 h-3 cyber-gradient-4 rounded-full pulse-glow" style={{ animationDelay: '1s' }}></div>
+            {/* Trust indicators */}
+            <div className="flex justify-center items-center gap-6 mb-6">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Secure</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                <span>Trusted</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-coral-500 rounded-full"></div>
+                <span>Rewarding</span>
+              </div>
             </div>
           </div>
           
