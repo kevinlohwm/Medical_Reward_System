@@ -223,27 +223,27 @@ export function StaffDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-4">
+    <div className="min-h-screen animated-bg p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Staff Portal</h1>
-            <p className="text-gray-600">Manage customer rewards and transactions</p>
+            <h1 className="text-3xl font-bold text-white holographic-text">Staff Portal</h1>
+            <p className="text-white/80">Manage customer rewards and transactions</p>
           </div>
-          <Button onClick={signOut} variant="outline">
+          <Button onClick={signOut} className="cyber-btn">
             Sign Out
           </Button>
         </div>
 
         {/* Customer Search */}
-        <Card className="mb-8">
+        <Card className="mb-8 glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" />
+              <Search className="h-5 w-5 text-blue-400 neon-glow" />
               Customer Lookup
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/80">
               Search by name, email, phone, or scan QR code
             </CardDescription>
           </CardHeader>
@@ -255,9 +255,10 @@ export function StaffDashboard() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && searchCustomer()}
+                  className="cyber-input"
                 />
               </div>
-              <Button onClick={searchCustomer} disabled={loading}>
+              <Button onClick={searchCustomer} disabled={loading} className="cyber-btn">
                 {loading ? 'Searching...' : 'Search'}
               </Button>
             </div>
@@ -265,29 +266,29 @@ export function StaffDashboard() {
             {message && (
               <div className={`mt-4 p-3 rounded-md text-sm ${
                 message.includes('Error') || message.includes('not found') || message.includes('Insufficient')
-                  ? 'bg-red-100 text-red-800'
-                  : 'bg-green-100 text-green-800'
+                  ? 'notification-error text-white'
+                  : 'notification-success text-white'
               }`}>
                 {message}
               </div>
             )}
 
             {selectedCustomer && (
-              <div className="mt-6 p-4 border rounded-lg bg-blue-50">
+              <div className="mt-6 p-4 border rounded-lg glass-card border-blue-400/30 neon-glow">
                 <div className="flex items-center gap-3 mb-4">
-                  <User className="h-8 w-8 text-blue-600" />
+                  <User className="h-8 w-8 text-blue-400 neon-glow" />
                   <div>
-                    <h3 className="font-semibold text-lg">{selectedCustomer.name}</h3>
-                    <p className="text-sm text-muted-foreground">{selectedCustomer.email}</p>
+                    <h3 className="font-semibold text-lg text-white holographic-text">{selectedCustomer.name}</h3>
+                    <p className="text-sm text-white/70">{selectedCustomer.email}</p>
                     {selectedCustomer.phone_number && (
-                      <p className="text-sm text-muted-foreground">{selectedCustomer.phone_number}</p>
+                      <p className="text-sm text-white/70">{selectedCustomer.phone_number}</p>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-blue-600" />
-                  <span className="font-medium">Points Balance: {selectedCustomer.points_balance}</span>
-                  <span className="text-sm text-muted-foreground">
+                  <Award className="h-5 w-5 text-blue-400 neon-glow" />
+                  <span className="font-medium text-white">Points Balance: {selectedCustomer.points_balance}</span>
+                  <span className="text-sm text-white/70">
                     (${(selectedCustomer.points_balance * systemConfig.points_per_dollar_value).toFixed(2)} value)
                   </span>
                 </div>
@@ -299,19 +300,19 @@ export function StaffDashboard() {
         {/* Actions */}
         {selectedCustomer && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <Card>
+            <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
+                  <DollarSign className="h-5 w-5 text-green-400 neon-glow-green" />
                   Award Points
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/80">
                   Enter bill amount to calculate and award points
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="billAmount">Bill Amount ($)</Label>
+                  <Label htmlFor="billAmount" className="text-white">Bill Amount ($)</Label>
                   <Input
                     id="billAmount"
                     type="number"
@@ -319,32 +320,33 @@ export function StaffDashboard() {
                     placeholder="0.00"
                     value={billAmount}
                     onChange={(e) => setBillAmount(e.target.value)}
+                    className="cyber-input"
                   />
                   {billAmount && (
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-white/70 mt-1">
                       Will award: {Math.floor(parseFloat(billAmount || '0') * systemConfig.points_per_dollar)} points
                     </p>
                   )}
                 </div>
-                <Button onClick={awardPoints} disabled={!billAmount || loading} className="w-full">
+                <Button onClick={awardPoints} disabled={!billAmount || loading} className="w-full cyber-btn">
                   Award Points
                 </Button>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5" />
+                  <Gift className="h-5 w-5 text-purple-400 neon-glow-purple" />
                   Redeem Points
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/80">
                   Enter points to redeem for cash value
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="pointsToRedeem">Points to Redeem</Label>
+                  <Label htmlFor="pointsToRedeem" className="text-white">Points to Redeem</Label>
                   <Input
                     id="pointsToRedeem"
                     type="number"
@@ -352,14 +354,15 @@ export function StaffDashboard() {
                     value={pointsToRedeem}
                     onChange={(e) => setPointsToRedeem(e.target.value)}
                     max={selectedCustomer.points_balance}
+                    className="cyber-input"
                   />
                   {pointsToRedeem && (
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-white/70 mt-1">
                       Cash value: ${(parseInt(pointsToRedeem || '0') * systemConfig.points_per_dollar_value).toFixed(2)}
                     </p>
                   )}
                 </div>
-                <Button onClick={redeemPoints} disabled={!pointsToRedeem || loading} className="w-full">
+                <Button onClick={redeemPoints} disabled={!pointsToRedeem || loading} className="w-full cyber-btn">
                   Redeem Points
                 </Button>
               </CardContent>
@@ -368,31 +371,31 @@ export function StaffDashboard() {
         )}
 
         {/* Today's Transactions */}
-        <Card>
+        <Card className="glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <History className="h-5 w-5" />
+              <History className="h-5 w-5 text-blue-400 neon-glow" />
               Today's Transactions
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/80">
               All loyalty transactions for your clinic today
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {transactions.length === 0 ? (
-                <p className="text-center text-muted-foreground py-8">No transactions today</p>
+                <p className="text-center text-white/70 py-8">No transactions today</p>
               ) : (
                 transactions.map((transaction) => (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg glass-card border-white/20 interactive-card">
                     <div>
-                      <p className="font-medium">{transaction.users.name}</p>
-                      <p className="text-sm text-muted-foreground">{transaction.users.email}</p>
-                      <p className="text-sm text-muted-foreground">{formatDate(transaction.created_at)}</p>
+                      <p className="font-medium text-white">{transaction.users.name}</p>
+                      <p className="text-sm text-white/70">{transaction.users.email}</p>
+                      <p className="text-sm text-white/70">{formatDate(transaction.created_at)}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-green-600">+{transaction.points_earned} points</p>
-                      <p className="text-sm text-muted-foreground">${transaction.bill_amount.toFixed(2)} bill</p>
+                      <p className="font-medium text-green-400 holographic-text">+{transaction.points_earned} points</p>
+                      <p className="text-sm text-white/70">${transaction.bill_amount.toFixed(2)} bill</p>
                     </div>
                   </div>
                 ))

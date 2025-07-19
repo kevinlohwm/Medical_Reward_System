@@ -6,23 +6,43 @@ export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-blue-600">
+    <div className="min-h-screen relative overflow-hidden animated-bg">
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-pink-400 to-rose-400 rounded-3xl opacity-20 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
-        <div className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full opacity-30 animate-bounce" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-        <div className="absolute bottom-32 left-32 w-40 h-40 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-2xl opacity-25 animate-bounce" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
-        <div className="absolute bottom-20 right-20 w-28 h-28 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-20 animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '3.5s' }}></div>
+        {/* Floating holographic shapes */}
+        <div className="absolute top-20 left-20 w-32 h-32 holographic rounded-3xl opacity-30 float" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute top-40 right-32 w-24 h-24 cyber-gradient-3 rounded-full opacity-40 float-delayed neon-glow" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 cyber-gradient-4 rounded-2xl opacity-35 float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-20 right-20 w-28 h-28 cyber-gradient-5 rounded-full opacity-30 float-delayed pulse-glow" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-1/2 left-10 w-16 h-16 cyber-gradient-2 rounded-xl opacity-25 float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-1/3 right-10 w-20 h-20 cyber-gradient-6 rounded-2xl opacity-30 float-delayed" style={{ animationDelay: '4s' }}></div>
         
-        {/* Gradient overlays */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-500/10 to-pink-500/10"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent to-black/10"></div>
+        {/* Particle effects */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
         
-        {/* Animated particles */}
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white rounded-full opacity-60 animate-ping" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-3/4 right-1/4 w-3 h-3 bg-yellow-300 rounded-full opacity-50 animate-ping" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-3/4 w-2 h-2 bg-pink-300 rounded-full opacity-70 animate-ping" style={{ animationDelay: '3s' }}></div>
+        {/* Grid overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="w-full h-full" style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}></div>
+        </div>
       </div>
       
       {/* Main content */}
@@ -30,25 +50,26 @@ export function AuthPage() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-8 animate-fade-in">
-            <h1 className="text-5xl font-bold text-white mb-3 tracking-tight">
-              <span className="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 bg-clip-text text-transparent">
+            <div className="relative mb-6">
+              <h1 className="text-6xl font-bold mb-3 tracking-tight holographic-text">
                 MedRewards
-              </span>
-            </h1>
-            <p className="text-white/90 text-xl font-medium mb-2">
+              </h1>
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl"></div>
+            </div>
+            <p className="text-white text-2xl font-bold mb-3 neon-glow">
               Healthcare Loyalty Program
             </p>
-            <p className="text-white/70 text-lg">
+            <p className="text-white/80 text-lg mb-6">
               Earn points, save money, get rewarded
             </p>
             
             {/* Decorative elements */}
-            <div className="flex justify-center items-center gap-2 mt-4">
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
-      </div>
+            <div className="flex justify-center items-center gap-4">
+              <div className="w-3 h-3 cyber-gradient-2 rounded-full pulse-glow"></div>
+              <div className="w-4 h-4 cyber-gradient-3 rounded-full pulse-glow" style={{ animationDelay: '0.5s' }}></div>
+              <div className="w-3 h-3 cyber-gradient-4 rounded-full pulse-glow" style={{ animationDelay: '1s' }}></div>
+            </div>
+          </div>
           
           {/* Auth forms */}
           <div className="animate-slide-up">

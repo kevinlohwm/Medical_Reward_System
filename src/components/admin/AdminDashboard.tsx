@@ -268,62 +268,62 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 p-4">
+    <div className="min-h-screen animated-bg p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600">Manage the entire loyalty program</p>
+            <h1 className="text-3xl font-bold text-white holographic-text">Admin Dashboard</h1>
+            <p className="text-white/80">Manage the entire loyalty program</p>
           </div>
-          <Button onClick={signOut} variant="outline">
+          <Button onClick={signOut} className="cyber-btn">
             Sign Out
           </Button>
         </div>
 
         {/* Analytics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="stats-card-1 text-white interactive-card neon-glow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Members</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Users className="h-4 w-4 text-white/80" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalMembers}</div>
+              <div className="text-2xl font-bold holographic-text">{analytics.totalMembers}</div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="stats-card-2 text-white interactive-card neon-glow-green">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Points in Circulation</CardTitle>
-              <Award className="h-4 w-4 text-muted-foreground" />
+              <Award className="h-4 w-4 text-white/80" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalPointsInCirculation.toLocaleString()}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold holographic-text">{analytics.totalPointsInCirculation.toLocaleString()}</div>
+              <p className="text-xs text-white/80">
                 ${(analytics.totalPointsInCirculation * systemConfig.points_per_dollar_value).toFixed(2)} value
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="stats-card-3 text-white interactive-card neon-glow-purple">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <BarChart3 className="h-4 w-4 text-white/80" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalTransactions}</div>
+              <div className="text-2xl font-bold holographic-text">{analytics.totalTransactions}</div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="stats-card-4 text-white interactive-card neon-glow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Top Clinic</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <TrendingUp className="h-4 w-4 text-white/80" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-bold">{analytics.topClinic}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-lg font-bold holographic-text">{analytics.topClinic}</div>
+              <p className="text-xs text-white/80">
                 Avg spending: ${analytics.averageSpending.toFixed(2)}
               </p>
             </CardContent>
@@ -332,7 +332,7 @@ export function AdminDashboard() {
 
         {message && (
           <div className={`mb-6 p-3 rounded-md text-sm ${
-            message.includes('Error') ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+            message.includes('Error') ? 'notification-error text-white' : 'notification-success text-white'
           }`}>
             {message}
           </div>
@@ -340,43 +340,43 @@ export function AdminDashboard() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="customers" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="customers">Customer Management</TabsTrigger>
-            <TabsTrigger value="promotions">Promotions</TabsTrigger>
-            <TabsTrigger value="settings">System Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 glass-card border-0 shadow-xl rounded-2xl p-2">
+            <TabsTrigger value="customers" className="cyber-tab">Customer Management</TabsTrigger>
+            <TabsTrigger value="promotions" className="cyber-tab">Promotions</TabsTrigger>
+            <TabsTrigger value="settings" className="cyber-tab">System Settings</TabsTrigger>
           </TabsList>
 
           {/* Customer Management */}
           <TabsContent value="customers">
-            <Card>
+            <Card className="glass-card text-white">
               <CardHeader>
-                <CardTitle>Customer Segmentation</CardTitle>
-                <CardDescription>
+                <CardTitle className="holographic-text">Customer Segmentation</CardTitle>
+                <CardDescription className="text-white/80">
                   View and analyze customer data for targeted marketing
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {customers.map((customer) => (
-                    <div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg glass-card border-white/20 interactive-card">
                       <div>
-                        <p className="font-medium">{customer.name}</p>
-                        <p className="text-sm text-muted-foreground">{customer.email}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="font-medium text-white">{customer.name}</p>
+                        <p className="text-sm text-white/70">{customer.email}</p>
+                        <p className="text-sm text-white/70">
                           Joined: {formatDate(customer.created_at)}
                         </p>
                         {customer.last_visit && (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-white/70">
                             Last visit: {formatDate(customer.last_visit)}
                           </p>
                         )}
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">{customer.points_balance} points</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="font-medium text-white holographic-text">{customer.points_balance} points</p>
+                        <p className="text-sm text-white/70">
                           ${customer.total_spending.toFixed(2)} spent
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-white/70">
                           {customer.visit_count} visits
                         </p>
                       </div>
@@ -389,64 +389,68 @@ export function AdminDashboard() {
 
           {/* Promotions */}
           <TabsContent value="promotions">
-            <Card>
+            <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  Campaign Management
+                  <span className="holographic-text">Campaign Management</span>
                   <Dialog open={isPromotionDialogOpen} onOpenChange={setIsPromotionDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button type="button" onClick={() => setIsPromotionDialogOpen(true)}>
+                      <Button type="button" onClick={() => setIsPromotionDialogOpen(true)} className="cyber-btn">
                         <Plus className="h-4 w-4 mr-2" />
                         Create Promotion
                       </Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="glass-card text-white border-white/20">
                       <DialogHeader>
-                        <DialogTitle>Create New Promotion</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle className="holographic-text">Create New Promotion</DialogTitle>
+                        <DialogDescription className="text-white/80">
                           Create a targeted promotion for your customers
                         </DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div>
-                          <Label htmlFor="title">Title</Label>
+                          <Label htmlFor="title" className="text-white">Title</Label>
                           <Input
                             id="title"
                             value={promotionForm.title}
                             onChange={(e) => setPromotionForm(prev => ({ ...prev, title: e.target.value }))}
                             placeholder="e.g., Double Points Weekend"
+                            className="cyber-input"
                           />
                         </div>
                         <div>
-                          <Label htmlFor="description">Description</Label>
+                          <Label htmlFor="description" className="text-white">Description</Label>
                           <Input
                             id="description"
                             value={promotionForm.description}
                             onChange={(e) => setPromotionForm(prev => ({ ...prev, description: e.target.value }))}
                             placeholder="Describe the promotion details"
+                            className="cyber-input"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <Label htmlFor="startDate">Start Date</Label>
+                            <Label htmlFor="startDate" className="text-white">Start Date</Label>
                             <Input
                               id="startDate"
                               type="date"
                               value={promotionForm.startDate}
                               onChange={(e) => setPromotionForm(prev => ({ ...prev, startDate: e.target.value }))}
+                              className="cyber-input"
                             />
                           </div>
                           <div>
-                            <Label htmlFor="endDate">End Date</Label>
+                            <Label htmlFor="endDate" className="text-white">End Date</Label>
                             <Input
                               id="endDate"
                               type="date"
                               value={promotionForm.endDate}
                               onChange={(e) => setPromotionForm(prev => ({ ...prev, endDate: e.target.value }))}
+                              className="cyber-input"
                             />
                           </div>
                         </div>
-                        <Button onClick={createPromotion} className="w-full">
+                        <Button onClick={createPromotion} className="w-full cyber-btn">
                           <Send className="h-4 w-4 mr-2" />
                           Create Promotion
                         </Button>
@@ -454,12 +458,12 @@ export function AdminDashboard() {
                     </DialogContent>
                   </Dialog>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/80">
                   Create and manage promotional campaigns
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-center text-muted-foreground py-8">
+                <p className="text-center text-white/70 py-8">
                   Use the "Create Promotion" button to start a new campaign
                 </p>
               </CardContent>
@@ -468,20 +472,20 @@ export function AdminDashboard() {
 
           {/* System Settings */}
           <TabsContent value="settings">
-            <Card>
+            <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
+                  <Settings className="h-5 w-5 text-blue-400 neon-glow" />
                   System Configuration
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/80">
                   Configure point earning and redemption rates
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="pointsPerDollar">Points per Dollar Spent</Label>
+                    <Label htmlFor="pointsPerDollar" className="text-white">Points per Dollar Spent</Label>
                     <Input
                       id="pointsPerDollar"
                       type="number"
@@ -491,13 +495,14 @@ export function AdminDashboard() {
                         ...prev, 
                         points_per_dollar: parseFloat(e.target.value) || 0 
                       }))}
+                      className="cyber-input"
                     />
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-white/70 mt-1">
                       How many points customers earn per dollar spent
                     </p>
                   </div>
                   <div>
-                    <Label htmlFor="pointValue">Point Redemption Value</Label>
+                    <Label htmlFor="pointValue" className="text-white">Point Redemption Value</Label>
                     <Input
                       id="pointValue"
                       type="number"
@@ -507,27 +512,28 @@ export function AdminDashboard() {
                         ...prev, 
                         points_per_dollar_value: parseFloat(e.target.value) || 0 
                       }))}
+                      className="cyber-input"
                     />
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-white/70 mt-1">
                       Dollar value of each point when redeemed
                     </p>
                   </div>
                 </div>
                 
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium mb-2">Current Configuration:</h4>
-                  <p className="text-sm text-muted-foreground">
+                <div className="p-4 notification-info rounded-lg">
+                  <h4 className="font-medium mb-2 text-white">Current Configuration:</h4>
+                  <p className="text-sm text-white/90">
                     • Customers earn {systemConfig.points_per_dollar} point(s) per $1 spent
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/90">
                     • Each point is worth ${systemConfig.points_per_dollar_value.toFixed(3)} when redeemed
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/90">
                     • 100 points = ${(100 * systemConfig.points_per_dollar_value).toFixed(2)} cash value
                   </p>
                 </div>
 
-                <Button onClick={updateSystemConfig}>
+                <Button onClick={updateSystemConfig} className="cyber-btn">
                   Update Configuration
                 </Button>
               </CardContent>
