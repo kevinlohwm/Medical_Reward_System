@@ -79,8 +79,51 @@ export function useAuth() {
         setProfile(data)
       } else {
         console.log('No profile found or error occurred, creating basic profile:', error)
-        // Create a basic profile if none exists
+        // Get user info from auth user object
+        const { data: { user } } = await supabase.auth.getUser()
+        console.log('Auth user data:', user)
+        
         const basicProfile: UserProfile = {
+          id: userId,
+          email: user?.email || '',
+          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+          phone_number: user?.user_metadata?.phone_number || null,
+          points_balance: 0,
+          role: 'customer',
+          clinic_id: null,
+          two_factor_enabled: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+        console.log('Setting basic profile with auth data:', basicProfile)
+        setProfile(basicProfile)
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error)
+      
+      // Get user info from auth user object as fallback
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        console.log('Fallback: Using auth user data:', user)
+        
+        const fallbackProfile: UserProfile = {
+          id: userId,
+          email: user?.email || '',
+          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+          phone_number: user?.user_metadata?.phone_number || null,
+          points_balance: 0,
+          role: 'customer',
+          clinic_id: null,
+          two_factor_enabled: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+        console.log('Setting fallback profile:', fallbackProfile)
+        setProfile(fallbackProfile)
+      } catch (fallbackError) {
+        console.error('Fallback profile creation failed:', fallbackError)
+        // Last resort - minimal profile
+        const minimalProfile: UserProfile = {
           id: userId,
           email: '',
           name: 'User',
@@ -92,25 +135,9 @@ export function useAuth() {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }
-        console.log('Setting basic profile:', basicProfile)
-        setProfile(basicProfile)
+        console.log('Setting minimal profile as last resort:', minimalProfile)
+        setProfile(minimalProfile)
       }
-    } catch (error) {
-      console.error('Error loading profile:', error)
-      // Set a basic profile even on error to prevent hanging
-      const basicProfile: UserProfile = {
-        id: userId,
-        email: '',
-        name: 'User',
-        phone_number: null,
-        points_balance: 0,
-        role: 'customer',
-        clinic_id: null,
-        two_factor_enabled: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }
-      setProfile(basicProfile)
     }
   }
 
