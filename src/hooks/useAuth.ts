@@ -65,80 +65,28 @@ export function useAuth() {
   }, [])
 
   const loadProfile = async (userId: string) => {
-    try {
-      console.log('Loading profile for user:', userId)
-      
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single()
-
-      if (data && !error) {
-        console.log('Profile loaded:', data)
-        setProfile(data)
-      } else {
-        console.log('No profile found or error occurred, creating basic profile:', error)
-        // Get user info from auth user object
-        const { data: { user } } = await supabase.auth.getUser()
-        console.log('Auth user data:', user)
-        
-        const basicProfile: UserProfile = {
-          id: userId,
-          email: user?.email || '',
-          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
-          phone_number: user?.user_metadata?.phone_number || null,
-          points_balance: 0,
-          role: 'customer',
-          clinic_id: null,
-          two_factor_enabled: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
-        console.log('Setting basic profile with auth data:', basicProfile)
-        setProfile(basicProfile)
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error)
-      
-      // Get user info from auth user object as fallback
-      try {
-        const { data: { user } } = await supabase.auth.getUser()
-        console.log('Fallback: Using auth user data:', user)
-        
-        const fallbackProfile: UserProfile = {
-          id: userId,
-          email: user?.email || '',
-          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
-          phone_number: user?.user_metadata?.phone_number || null,
-          points_balance: 0,
-          role: 'customer',
-          clinic_id: null,
-          two_factor_enabled: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
-        console.log('Setting fallback profile:', fallbackProfile)
-        setProfile(fallbackProfile)
-      } catch (fallbackError) {
-        console.error('Fallback profile creation failed:', fallbackError)
-        // Last resort - minimal profile
-        const minimalProfile: UserProfile = {
-          id: userId,
-          email: '',
-          name: 'User',
-          phone_number: null,
-          points_balance: 0,
-          role: 'customer',
-          clinic_id: null,
-          two_factor_enabled: false,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        }
-        console.log('Setting minimal profile as last resort:', minimalProfile)
-        setProfile(minimalProfile)
-      }
+    console.log('Loading profile for user:', userId)
+    
+    // Get user info from current auth session
+    const { data: { user } } = await supabase.auth.getUser()
+    console.log('Current auth user:', user)
+    
+    // Create profile directly from auth user data
+    const profile: UserProfile = {
+      id: userId,
+      email: user?.email || '',
+      name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+      phone_number: user?.user_metadata?.phone_number || null,
+      points_balance: 0,
+      role: 'customer',
+      clinic_id: null,
+      two_factor_enabled: false,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     }
+    
+    console.log('Created profile from auth data:', profile)
+    setProfile(profile)
   }
 
   const signIn = async (email: string, password: string) => {
