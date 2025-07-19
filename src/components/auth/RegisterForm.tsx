@@ -59,9 +59,9 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto glass-effect border-0 shadow-2xl shadow-black/10 animate-fade-in">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Create Account</CardTitle>
         <CardDescription className="text-center">
           Join our Medical Rewards program today
         </CardDescription>
@@ -71,14 +71,14 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <div className="relative">
-              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="name"
                 type="text"
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="pl-10"
+                className="pl-10 input-modern"
                 required
               />
             </div>
@@ -87,14 +87,14 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="pl-10"
+                className="pl-10 input-modern"
                 required
               />
             </div>
@@ -103,14 +103,14 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number (Optional)</Label>
             <div className="relative">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="phone"
                 type="tel"
                 placeholder="Enter your phone number"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="pl-10"
+                className="pl-10 input-modern"
               />
             </div>
           </div>
@@ -118,20 +118,20 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Create a password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10 pr-10 input-modern"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -141,26 +141,26 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className="pl-10"
+                className="pl-10 input-modern"
                 required
               />
             </div>
           </div>
 
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg border border-destructive/20 animate-bounce-in">
               {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full btn-primary" disabled={loading}>
             {loading ? 'Creating account...' : 'Create Account'}
           </Button>
         </form>
@@ -170,7 +170,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             Already have an account?{' '}
             <button
               onClick={onToggleForm}
-              className="text-primary hover:underline font-medium"
+              className="text-primary hover:underline font-medium transition-colors hover:text-primary/80"
             >
               Sign in
             </button>

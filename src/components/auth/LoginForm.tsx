@@ -33,9 +33,9 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto glass-effect border-0 shadow-2xl shadow-black/10 animate-fade-in">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Welcome Back</CardTitle>
         <CardDescription className="text-center">
           Sign in to your Medical Rewards account
         </CardDescription>
@@ -45,14 +45,14 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-10 input-modern"
                 required
               />
             </div>
@@ -61,20 +61,20 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10 pr-10 input-modern"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -82,12 +82,12 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           </div>
 
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg border border-destructive/20 animate-bounce-in">
               {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full btn-primary" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </Button>
         </form>
@@ -97,7 +97,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
             Don't have an account?{' '}
             <button
               onClick={onToggleForm}
-              className="text-primary hover:underline font-medium"
+              className="text-primary hover:underline font-medium transition-colors hover:text-primary/80"
             >
               Sign up
             </button>
