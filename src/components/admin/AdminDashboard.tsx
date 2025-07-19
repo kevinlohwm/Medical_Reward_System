@@ -52,6 +52,7 @@ export function AdminDashboard() {
     startDate: '',
     endDate: ''
   })
+  const [isPromotionDialogOpen, setIsPromotionDialogOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
 
@@ -240,6 +241,7 @@ export function AdminDashboard() {
       
       setMessage('Promotion created successfully!')
       setPromotionForm({ title: '', description: '', startDate: '', endDate: '' })
+      setIsPromotionDialogOpen(false)
     } catch (error) {
       setMessage('Error creating promotion')
       console.error('Error:', error)
@@ -391,7 +393,7 @@ export function AdminDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   Campaign Management
-                  <Dialog>
+                  <Dialog open={isPromotionDialogOpen} onOpenChange={setIsPromotionDialogOpen}>
                     <DialogTrigger asChild>
                       <Button>
                         <Plus className="h-4 w-4 mr-2" />
