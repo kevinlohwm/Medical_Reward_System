@@ -3,10 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
-import { Search, DollarSign, Gift, History, QrCode, User, Award } from 'lucide-react'
+import { Search, DollarSign, Gift, History, User, Award } from 'lucide-react'
 
 interface Customer {
   id: string
