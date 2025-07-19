@@ -48,12 +48,12 @@ export function useAuth() {
           console.log('User authenticated, loading profile...')
           setUser(session.user)
           await loadProfile(session.user.id)
+          console.log('Profile loading completed, setting loading to false')
         } else {
           console.log('No user session, clearing state')
           setUser(null)
           setProfile(null)
         }
-        console.log('Setting loading to false after auth state change')
         setLoading(false)
       }
     )
@@ -67,26 +67,45 @@ export function useAuth() {
   const loadProfile = async (userId: string) => {
     console.log('Loading profile for user:', userId)
     
-    // Get user info from current auth session
-    const { data: { user } } = await supabase.auth.getUser()
-    console.log('Current auth user:', user)
-    
-    // Create profile directly from auth user data
-    const profile: UserProfile = {
-      id: userId,
-      email: user?.email || '',
-      name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
-      phone_number: user?.user_metadata?.phone_number || null,
-      points_balance: 0,
-      role: 'customer',
-      clinic_id: null,
-      two_factor_enabled: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+    try {
+      // Get user info from current auth session
+      const { data: { user } } = await supabase.auth.getUser()
+      console.log('Current auth user:', user)
+      
+      // Create profile directly from auth user data
+      const profile: UserProfile = {
+        id: userId,
+        email: user?.email || '',
+        name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+        phone_number: user?.user_metadata?.phone_number || null,
+        points_balance: 0,
+        role: 'customer',
+        clinic_id: null,
+        two_factor_enabled: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+      
+      console.log('Created profile from auth data:', profile)
+      setProfile(profile)
+    } catch (error) {
+      console.error('Error in loadProfile:', error)
+      // Create a minimal profile even on error
+      const fallbackProfile: UserProfile = {
+        id: userId,
+        email: 'user@example.com',
+        name: 'User',
+        phone_number: null,
+        points_balance: 0,
+        role: 'customer',
+        clinic_id: null,
+        two_factor_enabled: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+      console.log('Using fallback profile:', fallbackProfile)
+      setProfile(fallbackProfile)
     }
-    
-    console.log('Created profile from auth data:', profile)
-    setProfile(profile)
   }
 
   const signIn = async (email: string, password: string) => {
