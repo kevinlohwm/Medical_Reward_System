@@ -159,9 +159,9 @@ export function CustomerDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen gradient-bg flex items-center justify-center">
+      <div className="min-h-screen dark-bg flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 modern-spinner mx-auto mb-4"></div>
           <p className="text-white text-xl font-medium">Loading your dashboard...</p>
         </div>
       </div>
@@ -169,63 +169,63 @@ export function CustomerDashboard() {
   }
 
   return (
-    <div className="min-h-screen animated-bg p-4">
+    <div className="min-h-screen dark-bg p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 animate-fade-up">
+        <div className="flex justify-between items-center mb-8 animate-fade-in">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2 holographic-text">
+            <h1 className="text-4xl font-bold text-white mb-2 heading-primary">
               Welcome back, {profile?.name}! 👋
             </h1>
-            <p className="text-white/80 text-xl">Manage your rewards and explore benefits</p>
+            <p className="text-slate-400 text-xl">Manage your rewards and explore benefits</p>
           </div>
-          <Button onClick={signOut} className="cyber-btn">
+          <Button onClick={signOut} className="btn-danger">
             Sign Out
           </Button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-up">
-          <Card className="stats-card-1 text-white border-0 shadow-2xl interactive-card neon-glow">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-slide-up">
+          <Card className="stats-card text-white border-0 shadow-2xl interactive-card">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-xl">
-                <Award className="h-6 w-6" />
+                <Award className="h-6 w-6 text-blue-400" />
                 Points Balance
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-5xl font-bold mb-2 holographic-text">{profile?.points_balance || 0}</div>
-              <p className="text-white/90 text-lg">
+              <div className="text-5xl font-bold mb-2 text-gradient">{profile?.points_balance || 0}</div>
+              <p className="text-slate-300 text-lg">
                 Cash Value: ${((profile?.points_balance || 0) * 0.01).toFixed(2)}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="stats-card-2 text-white border-0 shadow-2xl interactive-card neon-glow-green">
+          <Card className="stats-card-success text-white border-0 shadow-2xl interactive-card">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-xl">
-                <TrendingUp className="h-6 w-6" />
+                <TrendingUp className="h-6 w-6 text-green-400" />
                 Total Visits
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-5xl font-bold mb-2 holographic-text">{transactions.length}</div>
-              <p className="text-white/90 text-lg">Lifetime transactions</p>
+              <div className="text-5xl font-bold mb-2 text-gradient">{transactions.length}</div>
+              <p className="text-slate-300 text-lg">Lifetime transactions</p>
             </CardContent>
           </Card>
 
-          <Card className="stats-card-3 text-white border-0 shadow-2xl interactive-card neon-glow-purple">
+          <Card className="stats-card-warning text-white border-0 shadow-2xl interactive-card">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-3 text-xl">
-                <Gift className="h-6 w-6" />
+                <Gift className="h-6 w-6 text-yellow-400" />
                 Total Savings
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-5xl font-bold mb-2 holographic-text">
+              <div className="text-5xl font-bold mb-2 text-gradient">
                 ${redemptions.reduce((sum, r) => sum + r.cash_value_offset, 0).toFixed(0)}
               </div>
-              <p className="text-white/90 text-lg">
+              <p className="text-slate-300 text-lg">
                 {redemptions.reduce((sum, r) => sum + r.points_redeemed, 0)} points redeemed
               </p>
             </CardContent>
@@ -233,21 +233,21 @@ export function CustomerDashboard() {
         </div>
 
         {/* Main Content Tabs */}
-        <Tabs defaultValue="qr-code" className="space-y-6 animate-fade-up">
-          <TabsList className="grid w-full grid-cols-4 glass-card border-0 shadow-xl rounded-2xl p-2">
-            <TabsTrigger value="qr-code" className="cyber-tab">
+        <Tabs defaultValue="qr-code" className="space-y-6 animate-scale-in">
+          <TabsList className="nav-tabs grid w-full grid-cols-4">
+            <TabsTrigger value="qr-code" className="nav-tab">
               <QrCode className="h-5 w-5 mr-2" />
               QR Code
             </TabsTrigger>
-            <TabsTrigger value="history" className="cyber-tab">
+            <TabsTrigger value="history" className="nav-tab">
               <History className="h-5 w-5 mr-2" />
               History
             </TabsTrigger>
-            <TabsTrigger value="promotions" className="cyber-tab">
+            <TabsTrigger value="promotions" className="nav-tab">
               <Star className="h-5 w-5 mr-2" />
               Promotions
             </TabsTrigger>
-            <TabsTrigger value="clinics" className="cyber-tab">
+            <TabsTrigger value="clinics" className="nav-tab">
               <MapPin className="h-5 w-5 mr-2" />
               Clinics
             </TabsTrigger>
@@ -257,24 +257,24 @@ export function CustomerDashboard() {
           <TabsContent value="qr-code">
             <Card className="glass-card text-white">
               <CardHeader className="text-center">
-                <CardTitle className="flex items-center justify-center gap-3 text-2xl holographic-text">
-                  <QrCode className="h-7 w-7 text-blue-400 neon-glow" />
+                <CardTitle className="flex items-center justify-center gap-3 text-2xl heading-secondary">
+                  <QrCode className="h-7 w-7 text-blue-400" />
                   Your Digital Loyalty Card
                 </CardTitle>
-                <CardDescription className="text-lg text-white/80">
+                <CardDescription className="text-lg text-slate-400">
                   Show this QR code to clinic staff to earn and redeem points
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center space-y-6">
                 {qrCodeUrl && (
-                  <div className="bg-white p-8 rounded-3xl shadow-2xl border-4 border-blue-400 animate-scale-in neon-glow pulse-glow">
+                  <div className="qr-container animate-scale-in animate-pulse-glow">
                     <img src={qrCodeUrl} alt="QR Code" className="w-64 h-64" />
                   </div>
                 )}
-                <div className="text-center glass-card p-8 rounded-2xl border border-blue-400/30 w-full max-w-md">
-                  <p className="font-bold text-2xl text-white mb-2 holographic-text">{profile?.name}</p>
-                  <p className="text-white/80 text-lg mb-1">{profile?.email}</p>
-                  <p className="text-white/60">Member ID: {profile?.id.slice(0, 8)}...</p>
+                <div className="text-center glass-card p-8 rounded-2xl w-full max-w-md">
+                  <p className="font-bold text-2xl text-white mb-2 text-gradient">{profile?.name}</p>
+                  <p className="text-slate-300 text-lg mb-1">{profile?.email}</p>
+                  <p className="text-slate-400">Member ID: {profile?.id.slice(0, 8)}...</p>
                 </div>
               </CardContent>
             </Card>
@@ -285,11 +285,11 @@ export function CustomerDashboard() {
             <div className="space-y-6">
               <Card className="glass-card text-white">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-2xl holographic-text">
-                    <History className="h-7 w-7 text-green-400 neon-glow-green" />
+                  <CardTitle className="flex items-center gap-3 text-2xl heading-secondary">
+                    <History className="h-7 w-7 text-green-400" />
                     Transaction History
                   </CardTitle>
-                  <CardDescription className="text-lg text-white/80">
+                  <CardDescription className="text-lg text-slate-400">
                     Points earned from your visits
                   </CardDescription>
                 </CardHeader>
@@ -297,30 +297,30 @@ export function CustomerDashboard() {
                   <div className="space-y-4">
                     {transactions.length === 0 ? (
                       <div className="text-center py-16">
-                        <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6 neon-glow">
-                          <History className="h-10 w-10 text-white/60" />
+                        <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6">
+                          <History className="h-10 w-10 text-slate-400" />
                         </div>
-                        <p className="text-white/80 text-xl mb-2">No transactions yet</p>
-                        <p className="text-white/60">Visit one of our clinics to start earning points!</p>
+                        <p className="text-slate-300 text-xl mb-2">No transactions yet</p>
+                        <p className="text-slate-400">Visit one of our clinics to start earning points!</p>
                       </div>
                     ) : (
                       transactions.map((transaction) => (
-                        <div key={transaction.id} className="flex items-center justify-between p-6 glass-card rounded-2xl border border-white/20 shadow-lg interactive-card">
+                        <div key={transaction.id} className="flex items-center justify-between p-6 glass-card rounded-2xl shadow-lg interactive-card">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 cyber-gradient-4 rounded-xl flex items-center justify-center text-2xl neon-glow-green">
+                            <div className="w-12 h-12 stats-card-success rounded-xl flex items-center justify-center text-2xl">
                               {getClinicTypeIcon(transaction.clinics.type)}
                             </div>
                             <div>
                               <p className="font-bold text-lg text-white">{transaction.clinics.name}</p>
-                              <p className="text-white/70 flex items-center gap-2">
+                              <p className="text-slate-400 flex items-center gap-2">
                                 <Calendar className="h-4 w-4" />
                                 {formatDate(transaction.created_at)}
                               </p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-bold text-2xl text-green-400 holographic-text">+{transaction.points_earned}</p>
-                            <p className="text-white/70">${transaction.bill_amount.toFixed(2)} spent</p>
+                            <p className="font-bold text-2xl text-green-400 text-gradient">+{transaction.points_earned}</p>
+                            <p className="text-slate-400">${transaction.bill_amount.toFixed(2)} spent</p>
                           </div>
                         </div>
                       ))
@@ -331,11 +331,11 @@ export function CustomerDashboard() {
 
               <Card className="glass-card text-white">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-3 text-2xl holographic-text">
-                    <Gift className="h-7 w-7 text-purple-400 neon-glow-purple" />
+                  <CardTitle className="flex items-center gap-3 text-2xl heading-secondary">
+                    <Gift className="h-7 w-7 text-purple-400" />
                     Redemption History
                   </CardTitle>
-                  <CardDescription className="text-lg text-white/80">
+                  <CardDescription className="text-lg text-slate-400">
                     Points you've redeemed for savings
                   </CardDescription>
                 </CardHeader>
@@ -343,30 +343,30 @@ export function CustomerDashboard() {
                   <div className="space-y-4">
                     {redemptions.length === 0 ? (
                       <div className="text-center py-16">
-                        <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6 neon-glow-purple">
-                          <Gift className="h-10 w-10 text-white/60" />
+                        <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6">
+                          <Gift className="h-10 w-10 text-slate-400" />
                         </div>
-                        <p className="text-white/80 text-xl mb-2">No redemptions yet</p>
-                        <p className="text-white/60">Start redeeming your points for great savings!</p>
+                        <p className="text-slate-300 text-xl mb-2">No redemptions yet</p>
+                        <p className="text-slate-400">Start redeeming your points for great savings!</p>
                       </div>
                     ) : (
                       redemptions.map((redemption) => (
-                        <div key={redemption.id} className="flex items-center justify-between p-6 glass-card rounded-2xl border border-white/20 shadow-lg interactive-card">
+                        <div key={redemption.id} className="flex items-center justify-between p-6 glass-card rounded-2xl shadow-lg interactive-card">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 cyber-gradient-2 rounded-xl flex items-center justify-center text-2xl neon-glow-purple">
+                            <div className="w-12 h-12 stats-card-danger rounded-xl flex items-center justify-center text-2xl">
                               {getClinicTypeIcon(redemption.clinics.type)}
                             </div>
                             <div>
                               <p className="font-bold text-lg text-white">{redemption.clinics.name}</p>
-                              <p className="text-white/70 flex items-center gap-2">
+                              <p className="text-slate-400 flex items-center gap-2">
                                 <Calendar className="h-4 w-4" />
                                 {formatDate(redemption.created_at)}
                               </p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-bold text-2xl text-red-400 holographic-text">-{redemption.points_redeemed}</p>
-                            <p className="text-white/70">${redemption.cash_value_offset.toFixed(2)} saved</p>
+                            <p className="font-bold text-2xl text-red-400 text-gradient">-{redemption.points_redeemed}</p>
+                            <p className="text-slate-400">${redemption.cash_value_offset.toFixed(2)} saved</p>
                           </div>
                         </div>
                       ))
@@ -381,11 +381,11 @@ export function CustomerDashboard() {
           <TabsContent value="promotions">
             <Card className="glass-card text-white">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl holographic-text">
-                  <Star className="h-7 w-7 text-yellow-400 neon-glow" />
+                <CardTitle className="flex items-center gap-3 text-2xl heading-secondary">
+                  <Star className="h-7 w-7 text-yellow-400" />
                   Active Promotions
                 </CardTitle>
-                <CardDescription className="text-lg text-white/80">
+                <CardDescription className="text-lg text-slate-400">
                   Special offers and bonus point opportunities
                 </CardDescription>
               </CardHeader>
@@ -393,23 +393,23 @@ export function CustomerDashboard() {
                 <div className="space-y-6">
                   {promotions.length === 0 ? (
                     <div className="text-center py-16">
-                      <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6 neon-glow">
-                        <Star className="h-10 w-10 text-white/60" />
+                      <div className="w-20 h-20 glass-card rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Star className="h-10 w-10 text-slate-400" />
                       </div>
-                      <p className="text-white/80 text-xl mb-2">No active promotions</p>
-                      <p className="text-white/60">Check back soon for exciting offers!</p>
+                      <p className="text-slate-300 text-xl mb-2">No active promotions</p>
+                      <p className="text-slate-400">Check back soon for exciting offers!</p>
                     </div>
                   ) : (
                     promotions.map((promotion) => (
-                      <div key={promotion.id} className="p-8 cyber-gradient-5 rounded-2xl border-2 border-yellow-400/30 shadow-xl interactive-card neon-glow">
+                      <div key={promotion.id} className="p-8 stats-card-warning rounded-2xl shadow-xl interactive-card">
                         <div className="flex items-start gap-4">
-                          <div className="w-16 h-16 holographic rounded-2xl flex items-center justify-center shadow-lg neon-glow">
+                          <div className="w-16 h-16 stats-card rounded-2xl flex items-center justify-center shadow-lg">
                             <Star className="h-8 w-8 text-white" />
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-bold text-2xl text-white mb-3 holographic-text">{promotion.title}</h3>
-                            <p className="text-white/90 text-lg mb-4">{promotion.description}</p>
-                            <div className="flex items-center gap-2 text-white/70">
+                            <h3 className="font-bold text-2xl text-white mb-3 text-gradient">{promotion.title}</h3>
+                            <p className="text-slate-300 text-lg mb-4">{promotion.description}</p>
+                            <div className="flex items-center gap-2 text-slate-400">
                               <Calendar className="h-5 w-5" />
                               <span className="font-medium">Valid until: {new Date(promotion.end_date).toLocaleDateString()}</span>
                             </div>
@@ -427,27 +427,27 @@ export function CustomerDashboard() {
           <TabsContent value="clinics">
             <Card className="glass-card text-white">
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-2xl holographic-text">
-                  <MapPin className="h-7 w-7 text-red-400 neon-glow" />
+                <CardTitle className="flex items-center gap-3 text-2xl heading-secondary">
+                  <MapPin className="h-7 w-7 text-red-400" />
                   Our Clinic Locations
                 </CardTitle>
-                <CardDescription className="text-lg text-white/80">
+                <CardDescription className="text-lg text-slate-400">
                   Find and visit our clinic locations
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {clinics.map((clinic) => (
-                    <div key={clinic.id} className="p-8 glass-card rounded-2xl border border-white/20 shadow-xl interactive-card">
+                    <div key={clinic.id} className="p-8 glass-card rounded-2xl shadow-xl interactive-card">
                       <div className="flex items-start gap-4">
-                        <div className="w-16 h-16 cyber-gradient-1 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg neon-glow">
+                        <div className="w-16 h-16 stats-card rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
                           {getClinicTypeIcon(clinic.type)}
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-bold text-2xl text-white mb-2 holographic-text">{clinic.name}</h3>
+                          <h3 className="font-bold text-2xl text-white mb-2 text-gradient">{clinic.name}</h3>
                           <p className="text-blue-400 font-semibold capitalize mb-4 text-lg">{clinic.type} Clinic</p>
                           
-                          <div className="space-y-3 text-white/80">
+                          <div className="space-y-3 text-slate-300">
                             <div className="flex items-center gap-3">
                               <MapPin className="h-5 w-5 text-red-400" />
                               <span>{clinic.address}</span>
@@ -472,7 +472,7 @@ export function CustomerDashboard() {
                               {clinic.services.map((service, index) => (
                                 <span
                                   key={index}
-                                  className="px-4 py-2 cyber-gradient-3 text-white text-sm rounded-xl font-semibold neon-glow"
+                                  className="px-4 py-2 stats-card text-white text-sm rounded-xl font-semibold"
                                 >
                                   {service}
                                 </span>

@@ -87,15 +87,15 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   }
 
   return (
-    <Card className="premium-card animate-scale-in overflow-hidden">
+    <Card className="glass-card animate-scale-in overflow-hidden">
       <CardHeader className="text-center pb-6">
         <CardTitle className="text-3xl font-bold heading-primary">
-          <span className="bg-gradient-to-r from-teal-600 to-coral-600 bg-clip-text text-transparent flex items-center justify-center gap-2">
-            <UserPlus className="h-8 w-8 text-teal-600" />
+          <span className="text-gradient flex items-center justify-center gap-2">
+            <UserPlus className="h-8 w-8 text-blue-400" />
             Join MedRewards
           </span>
         </CardTitle>
-        <CardDescription className="text-gray-600 text-lg">
+        <CardDescription className="text-slate-400 text-lg">
           Create your account and start earning rewards
         </CardDescription>
       </CardHeader>
@@ -103,16 +103,16 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Field */}
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-gray-700 font-semibold">Full Name</Label>
+            <Label htmlFor="name" className="text-slate-300 font-semibold">Full Name</Label>
             <div className="relative group">
-              <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-500 group-focus-within:text-teal-600 transition-colors" />
+              <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-400 group-focus-within:text-blue-300 transition-colors" />
               <Input
                 id="name"
                 type="text"
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="input-premium pl-12 h-12"
+                className="modern-input pl-12 h-12"
                 required
               />
             </div>
@@ -120,16 +120,16 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
 
           {/* Email Field */}
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-700 font-semibold">Email Address</Label>
+            <Label htmlFor="email" className="text-slate-300 font-semibold">Email Address</Label>
             <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-coral-500 group-focus-within:text-coral-600 transition-colors" />
+              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-400 group-focus-within:text-green-300 transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="input-premium pl-12 h-12"
+                className="modern-input pl-12 h-12"
                 required
               />
             </div>
@@ -137,38 +137,38 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
 
           {/* Phone Field */}
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-gray-700 font-semibold">Phone Number <span className="text-gray-500">(Optional)</span></Label>
+            <Label htmlFor="phone" className="text-slate-300 font-semibold">Phone Number <span className="text-slate-500">(Optional)</span></Label>
             <div className="relative group">
-              <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-emerald-500 group-focus-within:text-emerald-600 transition-colors" />
+              <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-purple-400 group-focus-within:text-purple-300 transition-colors" />
               <Input
                 id="phone"
                 type="tel"
                 placeholder="Enter your phone number"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="input-premium pl-12 h-12"
+                className="modern-input pl-12 h-12"
               />
             </div>
           </div>
           
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-700 font-semibold">Password</Label>
+            <Label htmlFor="password" className="text-slate-300 font-semibold">Password</Label>
             <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-500 group-focus-within:text-teal-600 transition-colors" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-400 group-focus-within:text-blue-300 transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Create a password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="input-premium pl-12 pr-12 h-12"
+                className="modern-input pl-12 pr-12 h-12"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-teal-500 hover:text-teal-600 transition-colors"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-300 transition-colors"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
@@ -198,24 +198,24 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
 
           {/* Confirm Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword" className="text-gray-700 font-semibold">Confirm Password</Label>
+            <Label htmlFor="confirmPassword" className="text-slate-300 font-semibold">Confirm Password</Label>
             <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-500 group-focus-within:text-teal-600 transition-colors" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-400 group-focus-within:text-blue-300 transition-colors" />
               <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className="input-premium pl-12 pr-12 h-12"
+                className="modern-input pl-12 pr-12 h-12"
                 required
               />
               {formData.confirmPassword && (
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                   {formData.password === formData.confirmPassword ? (
-                    <Check className="h-5 w-5 text-green-500" />
+                    <Check className="h-5 w-5 text-green-400" />
                   ) : (
-                    <X className="h-5 w-5 text-red-500" />
+                    <X className="h-5 w-5 text-red-400" />
                   )}
                 </div>
               )}
@@ -239,10 +239,10 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
           )}
 
           {/* Create Account Button */}
-          <Button type="submit" className="btn-accent w-full h-12 group" disabled={loading}>
+          <Button type="submit" className="btn-success w-full h-12 group" disabled={loading}>
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 spinner-premium"></div>
+                <div className="w-4 h-4 modern-spinner"></div>
                 Creating account...
               </div>
             ) : (
@@ -257,10 +257,10 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
+            <div className="w-full border-t border-slate-600"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-600 font-semibold">Or continue with</span>
+            <span className="px-4 bg-slate-900 text-slate-400 font-semibold">Or continue with</span>
           </div>
         </div>
 
@@ -292,12 +292,12 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
         </div>
 
         {/* Sign In Link */}
-        <div className="text-center pt-6 border-t border-gray-300">
-          <p className="text-gray-600">
+        <div className="text-center pt-6 border-t border-slate-600">
+          <p className="text-slate-400">
             Already have an account?{' '}
             <button
               onClick={onToggleForm}
-              className="text-teal-600 hover:text-teal-700 font-bold transition-colors hover:underline"
+              className="text-blue-400 hover:text-blue-300 font-bold transition-colors hover:underline"
             >
               Sign In
             </button>

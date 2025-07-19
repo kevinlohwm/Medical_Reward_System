@@ -46,12 +46,12 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
   }
 
   return (
-    <Card className="premium-card animate-scale-in overflow-hidden">
+    <Card className="glass-card animate-scale-in overflow-hidden">
       <CardHeader className="text-center pb-6">
-        <CardTitle className="text-3xl font-bold heading-primary text-gray-800">
+        <CardTitle className="text-3xl font-bold heading-secondary text-white">
           Welcome Back
         </CardTitle>
-        <CardDescription className="text-gray-600 text-lg">
+        <CardDescription className="text-slate-400 text-lg">
           Sign in to access your rewards
         </CardDescription>
       </CardHeader>
@@ -59,16 +59,16 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Email Field */}
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-gray-700 font-semibold">Email Address</Label>
+            <Label htmlFor="email" className="text-slate-300 font-semibold">Email Address</Label>
             <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-500 group-focus-within:text-teal-600 transition-colors" />
+              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-400 group-focus-within:text-blue-300 transition-colors" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input-premium pl-12 h-12"
+                className="modern-input pl-12 h-12"
                 required
               />
             </div>
@@ -76,22 +76,22 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-gray-700 font-semibold">Password</Label>
+            <Label htmlFor="password" className="text-slate-300 font-semibold">Password</Label>
             <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-teal-500 group-focus-within:text-teal-600 transition-colors" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-blue-400 group-focus-within:text-blue-300 transition-colors" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-premium pl-12 pr-12 h-12"
+                className="modern-input pl-12 pr-12 h-12"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-teal-500 hover:text-teal-600 transition-colors"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-300 transition-colors"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
@@ -102,7 +102,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           <div className="flex justify-end">
             <button
               type="button"
-              className="text-teal-600 hover:text-teal-700 text-sm font-semibold transition-colors hover:underline"
+              className="text-blue-400 hover:text-blue-300 text-sm font-semibold transition-colors hover:underline"
             >
               Forgot Password?
             </button>
@@ -120,7 +120,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           <Button type="submit" className="btn-primary w-full h-12 group" disabled={loading}>
             {loading ? (
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 spinner-premium"></div>
+                <div className="w-4 h-4 modern-spinner"></div>
                 Signing in...
               </div>
             ) : (
@@ -151,7 +151,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
               <span><strong>Staff:</strong> Any email ending with @staff.com</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-teal-400 rounded-full"></span>
+              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
               <span><strong>Customer:</strong> Any other email address</span>
             </div>
           </div>
@@ -163,10 +163,10 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
+            <div className="w-full border-t border-slate-600"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-600 font-semibold">Or continue with</span>
+            <span className="px-4 bg-slate-900 text-slate-400 font-semibold">Or continue with</span>
           </div>
         </div>
 
@@ -198,12 +198,12 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         </div>
 
         {/* Sign Up Link */}
-        <div className="text-center pt-6 border-t border-gray-300">
-          <p className="text-gray-600">
+        <div className="text-center pt-6 border-t border-slate-600">
+          <p className="text-slate-400">
             Don't have an account?{' '}
             <button
               onClick={onToggleForm}
-              className="text-teal-600 hover:text-teal-700 font-bold transition-colors hover:underline"
+              className="text-blue-400 hover:text-blue-300 font-bold transition-colors hover:underline"
             >
               Create Account
             </button>

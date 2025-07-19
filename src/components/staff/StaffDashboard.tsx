@@ -223,15 +223,15 @@ export function StaffDashboard() {
   }
 
   return (
-    <div className="min-h-screen animated-bg p-4">
+    <div className="min-h-screen dark-bg p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white holographic-text">Staff Portal</h1>
-            <p className="text-white/80">Manage customer rewards and transactions</p>
+            <h1 className="text-3xl font-bold text-white heading-primary">Staff Portal</h1>
+            <p className="text-slate-400">Manage customer rewards and transactions</p>
           </div>
-          <Button onClick={signOut} className="cyber-btn">
+          <Button onClick={signOut} className="btn-danger">
             Sign Out
           </Button>
         </div>
@@ -240,10 +240,10 @@ export function StaffDashboard() {
         <Card className="mb-8 glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5 text-blue-400 neon-glow" />
+              <Search className="h-5 w-5 text-blue-400" />
               Customer Lookup
             </CardTitle>
-            <CardDescription className="text-white/80">
+            <CardDescription className="text-slate-400">
               Search by name, email, phone, or scan QR code
             </CardDescription>
           </CardHeader>
@@ -255,10 +255,10 @@ export function StaffDashboard() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && searchCustomer()}
-                  className="cyber-input"
+                  className="modern-input"
                 />
               </div>
-              <Button onClick={searchCustomer} disabled={loading} className="cyber-btn">
+              <Button onClick={searchCustomer} disabled={loading} className="btn-primary">
                 {loading ? 'Searching...' : 'Search'}
               </Button>
             </div>
@@ -274,21 +274,21 @@ export function StaffDashboard() {
             )}
 
             {selectedCustomer && (
-              <div className="mt-6 p-4 border rounded-lg glass-card border-blue-400/30 neon-glow">
+              <div className="mt-6 p-4 border rounded-lg glass-card">
                 <div className="flex items-center gap-3 mb-4">
-                  <User className="h-8 w-8 text-blue-400 neon-glow" />
+                  <User className="h-8 w-8 text-blue-400" />
                   <div>
-                    <h3 className="font-semibold text-lg text-white holographic-text">{selectedCustomer.name}</h3>
-                    <p className="text-sm text-white/70">{selectedCustomer.email}</p>
+                    <h3 className="font-semibold text-lg text-white text-gradient">{selectedCustomer.name}</h3>
+                    <p className="text-sm text-slate-400">{selectedCustomer.email}</p>
                     {selectedCustomer.phone_number && (
-                      <p className="text-sm text-white/70">{selectedCustomer.phone_number}</p>
+                      <p className="text-sm text-slate-400">{selectedCustomer.phone_number}</p>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-blue-400 neon-glow" />
+                  <Award className="h-5 w-5 text-blue-400" />
                   <span className="font-medium text-white">Points Balance: {selectedCustomer.points_balance}</span>
-                  <span className="text-sm text-white/70">
+                  <span className="text-sm text-slate-400">
                     (${(selectedCustomer.points_balance * systemConfig.points_per_dollar_value).toFixed(2)} value)
                   </span>
                 </div>
@@ -303,10 +303,10 @@ export function StaffDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5 text-green-400 neon-glow-green" />
+                  <DollarSign className="h-5 w-5 text-green-400" />
                   Award Points
                 </CardTitle>
-                <CardDescription className="text-white/80">
+                <CardDescription className="text-slate-400">
                   Enter bill amount to calculate and award points
                 </CardDescription>
               </CardHeader>
@@ -320,15 +320,15 @@ export function StaffDashboard() {
                     placeholder="0.00"
                     value={billAmount}
                     onChange={(e) => setBillAmount(e.target.value)}
-                    className="cyber-input"
+                    className="modern-input"
                   />
                   {billAmount && (
-                    <p className="text-sm text-white/70 mt-1">
+                    <p className="text-sm text-slate-400 mt-1">
                       Will award: {Math.floor(parseFloat(billAmount || '0') * systemConfig.points_per_dollar)} points
                     </p>
                   )}
                 </div>
-                <Button onClick={awardPoints} disabled={!billAmount || loading} className="w-full cyber-btn">
+                <Button onClick={awardPoints} disabled={!billAmount || loading} className="w-full btn-success">
                   Award Points
                 </Button>
               </CardContent>
@@ -337,10 +337,10 @@ export function StaffDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-purple-400 neon-glow-purple" />
+                  <Gift className="h-5 w-5 text-purple-400" />
                   Redeem Points
                 </CardTitle>
-                <CardDescription className="text-white/80">
+                <CardDescription className="text-slate-400">
                   Enter points to redeem for cash value
                 </CardDescription>
               </CardHeader>
@@ -354,15 +354,15 @@ export function StaffDashboard() {
                     value={pointsToRedeem}
                     onChange={(e) => setPointsToRedeem(e.target.value)}
                     max={selectedCustomer.points_balance}
-                    className="cyber-input"
+                    className="modern-input"
                   />
                   {pointsToRedeem && (
-                    <p className="text-sm text-white/70 mt-1">
+                    <p className="text-sm text-slate-400 mt-1">
                       Cash value: ${(parseInt(pointsToRedeem || '0') * systemConfig.points_per_dollar_value).toFixed(2)}
                     </p>
                   )}
                 </div>
-                <Button onClick={redeemPoints} disabled={!pointsToRedeem || loading} className="w-full cyber-btn">
+                <Button onClick={redeemPoints} disabled={!pointsToRedeem || loading} className="w-full btn-primary">
                   Redeem Points
                 </Button>
               </CardContent>
@@ -374,28 +374,28 @@ export function StaffDashboard() {
         <Card className="glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <History className="h-5 w-5 text-blue-400 neon-glow" />
+              <History className="h-5 w-5 text-blue-400" />
               Today's Transactions
             </CardTitle>
-            <CardDescription className="text-white/80">
+            <CardDescription className="text-slate-400">
               All loyalty transactions for your clinic today
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {transactions.length === 0 ? (
-                <p className="text-center text-white/70 py-8">No transactions today</p>
+                <p className="text-center text-slate-400 py-8">No transactions today</p>
               ) : (
                 transactions.map((transaction) => (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg glass-card border-white/20 interactive-card">
+                  <div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg glass-card interactive-card">
                     <div>
                       <p className="font-medium text-white">{transaction.users.name}</p>
-                      <p className="text-sm text-white/70">{transaction.users.email}</p>
-                      <p className="text-sm text-white/70">{formatDate(transaction.created_at)}</p>
+                      <p className="text-sm text-slate-400">{transaction.users.email}</p>
+                      <p className="text-sm text-slate-400">{formatDate(transaction.created_at)}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-green-400 holographic-text">+{transaction.points_earned} points</p>
-                      <p className="text-sm text-white/70">${transaction.bill_amount.toFixed(2)} bill</p>
+                      <p className="font-medium text-green-400 text-gradient">+{transaction.points_earned} points</p>
+                      <p className="text-sm text-slate-400">${transaction.bill_amount.toFixed(2)} bill</p>
                     </div>
                   </div>
                 ))
