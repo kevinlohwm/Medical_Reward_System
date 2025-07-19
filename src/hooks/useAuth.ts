@@ -45,10 +45,37 @@ export function useAuth() {
         .eq('id', userId)
         .single()
 
-      if (error) throw error
+      if (error) {
+        console.error('Error fetching profile:', error)
+        // If profile doesn't exist, create one
+        if (error.code === 'PGRST116') {
+          const { data: userData } = await supabase.auth.getUser()
+          if (userData.user) {
+            const { data: newProfile, error: insertError } = await supabase
+              .from('users')
+              .insert({
+                id: userData.user.id,
+                email: userData.user.email || '',
+                name: userData.user.user_metadata?.name || userData.user.email?.split('@')[0] || 'User',
+                phone_number: userData.user.user_metadata?.phone_number || null,
+                role: 'customer'
+              })
+              .select()
+              .single()
+            
+            if (!insertError && newProfile) {
+              setProfile(newProfile)
+              setLoading(false)
+              return
+            }
+          }
+        }
+        throw error
+      }
       setProfile(data)
     } catch (error) {
       console.error('Error fetching profile:', error)
+      setProfile(null)
     } finally {
       setLoading(false)
     }
