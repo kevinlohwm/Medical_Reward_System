@@ -35,23 +35,15 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
     }, 10000) // 10 second timeout
 
     console.log('Form submitted, attempting sign in...')
-      console.log('Calling signIn function...')
+    console.log('Calling signIn function...')
     
-      console.log('Sign in result:', result)
-      
-      clearTimeout(timeoutId)
     const { error } = await signIn(email, password)
+    clearTimeout(timeoutId)
     
-        console.log('Sign in error:', result.error)
     console.log('Sign in completed, error:', error)
-    
-      } else {
-        console.log('Sign in successful, waiting for auth state change...')
-        // Don't set loading to false here - let auth state change handle it
+
     if (error) {
-      console.log('Setting error and stopping loading')
       console.error('Sign in exception:', error)
-      clearTimeout(timeoutId)
       setError('Invalid email or password. Please try again.')
       setLoading(false)
     }
