@@ -13,30 +13,40 @@ export function useAuth() {
   useEffect(() => {
     console.log('Auth hook initializing...')
     
-    // Clear any existing session and reset to login screen
-    setUser(null)
-    setProfile(null)
-    setLoading(false)
+    const initAuth = async () => {
+      // Force clear any existing session
+      await supabase.auth.signOut()
+      
+      // Clear local storage
+      localStorage.clear()
+      sessionStorage.clear()
+      
+      // Reset state
+      setUser(null)
+      setProfile(null)
+      setLoading(false)
+      
+      console.log('Auth cleared, showing login screen')
+    }
     
-    // Sign out to clear any existing session
-    supabase.auth.signOut()
+    initAuth()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session)
         
-        if (session?.user) {
+        if (event === 'SIGNED_IN' && session?.user) {
           console.log('User authenticated, loading profile...')
           setUser(session.user)
           await loadProfile(session.user.id)
           console.log('Profile loading completed, setting loading to false')
-        } else {
+        } else if (event === 'SIGNED_OUT' || !session) {
           console.log('No user session, clearing state')
           setUser(null)
           setProfile(null)
+          setLoading(false)
         }
-        setLoading(false)
       }
     )
 
@@ -68,6 +78,7 @@ export function useAuth() {
       }
       
       console.log('Created profile from auth data:', profile)
+        setLoading(false)
       setProfile(profile)
     } catch (error) {
       console.error('Error in loadProfile:', error)
@@ -86,6 +97,7 @@ export function useAuth() {
       }
       console.log('Using fallback profile:', fallbackProfile)
       setProfile(fallbackProfile)
+      setLoading(false)
     }
   }
 
