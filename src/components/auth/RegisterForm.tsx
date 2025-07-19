@@ -59,120 +59,120 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto glass-effect border-0 shadow-2xl shadow-black/10 animate-fade-in">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Create Account</CardTitle>
-        <CardDescription className="text-center">
-          Join our Medical Rewards program today
+    <Card className="card-modern animate-fade-up">
+      <CardHeader className="text-center pb-6">
+        <CardTitle className="text-3xl font-bold text-gray-800">Join MedRewards</CardTitle>
+        <CardDescription className="text-lg text-gray-600">
+          Start earning rewards today
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name" className="text-gray-700 font-medium">Full Name</Label>
             <div className="relative">
-              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
+              <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 id="name"
                 type="text"
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="pl-10 input-modern"
+                className="input-modern pl-12"
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-700 font-medium">Email Address</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
+              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
-                className="pl-10 input-modern"
+                className="input-modern pl-12"
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number (Optional)</Label>
+            <Label htmlFor="phone" className="text-gray-700 font-medium">Phone Number (Optional)</Label>
             <div className="relative">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
+              <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 id="phone"
                 type="tel"
                 placeholder="Enter your phone number"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="pl-10 input-modern"
+                className="input-modern pl-12"
               />
             </div>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Create a password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
-                className="pl-10 pr-10 input-modern"
+                className="input-modern pl-12 pr-12"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">Confirm Password</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground transition-colors" />
+              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 id="confirmPassword"
                 type="password"
                 placeholder="Confirm your password"
                 value={formData.confirmPassword}
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                className="pl-10 input-modern"
+                className="input-modern pl-12"
                 required
               />
             </div>
           </div>
 
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg border border-destructive/20 animate-bounce-in">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl animate-scale-in">
               {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full btn-primary" disabled={loading}>
+          <Button type="submit" className="btn-primary w-full text-lg" disabled={loading}>
             {loading ? 'Creating account...' : 'Create Account'}
           </Button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="text-center pt-4 border-t border-gray-200">
+          <p className="text-gray-600">
             Already have an account?{' '}
             <button
               onClick={onToggleForm}
-              className="text-primary hover:underline font-medium transition-colors hover:text-primary/80"
+              className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
             >
-              Sign in
+              Sign In
             </button>
           </p>
         </div>
