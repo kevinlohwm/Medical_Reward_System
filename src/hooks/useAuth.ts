@@ -45,12 +45,15 @@ export function useAuth() {
         console.log('Auth state changed:', event, session)
         
         if (session?.user) {
+          console.log('User authenticated, loading profile...')
           setUser(session.user)
           await loadProfile(session.user.id)
         } else {
+          console.log('No user session, clearing state')
           setUser(null)
           setProfile(null)
         }
+        console.log('Setting loading to false after auth state change')
         setLoading(false)
       }
     )
@@ -71,16 +74,16 @@ export function useAuth() {
         .eq('id', userId)
         .single()
 
-      if (data) {
+      if (data && !error) {
         console.log('Profile loaded:', data)
         setProfile(data)
       } else {
-        console.log('No profile found, creating basic profile')
+        console.log('No profile found or error occurred, creating basic profile:', error)
         // Create a basic profile if none exists
         const basicProfile: UserProfile = {
           id: userId,
-          email: user?.email || '',
-          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+          email: '',
+          name: 'User',
           phone_number: null,
           points_balance: 0,
           role: 'customer',
@@ -89,10 +92,25 @@ export function useAuth() {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }
+        console.log('Setting basic profile:', basicProfile)
         setProfile(basicProfile)
       }
     } catch (error) {
       console.error('Error loading profile:', error)
+      // Set a basic profile even on error to prevent hanging
+      const basicProfile: UserProfile = {
+        id: userId,
+        email: '',
+        name: 'User',
+        phone_number: null,
+        points_balance: 0,
+        role: 'customer',
+        clinic_id: null,
+        two_factor_enabled: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+      setProfile(basicProfile)
     }
   }
 
