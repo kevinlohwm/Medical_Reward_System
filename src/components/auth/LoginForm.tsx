@@ -23,23 +23,14 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
     setLoading(true)
     setError('')
 
-    try {
-      const { error } = await signIn(email, password)
-      
-      if (error) {
-        setError('Invalid email or password. Please try again.')
-        setLoading(false)
-      } else {
-        // Success - set a timeout to ensure loading doesn't hang forever
-        console.log('Sign in successful, waiting for auth state change...')
-        setTimeout(() => {
-          setLoading(false)
-        }, 3000) // Fallback timeout
-      }
-    } catch (error) {
-      console.error('Login form error:', error)
-      setError('An unexpected error occurred. Please try again.')
+    const { error } = await signIn(email, password)
+    
+    if (error) {
+      setError('Invalid email or password. Please try again.')
       setLoading(false)
+    } else {
+      // Success - the auth state change will handle the rest
+      // Keep loading true until auth state updates
     }
   }
 
