@@ -13,31 +13,13 @@ export function useAuth() {
   useEffect(() => {
     console.log('Auth hook initializing...')
     
-    // Set a maximum loading time of 2 seconds
-    const loadingTimeout = setTimeout(() => {
-      console.log('Loading timeout reached, setting loading to false')
-      setLoading(false)
-    }, 2000)
-
-    // Get initial session
-    const getInitialSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        console.log('Initial session:', session)
-        
-        if (session?.user) {
-          setUser(session.user)
-          await loadProfile(session.user.id)
-        }
-      } catch (error) {
-        console.error('Error getting initial session:', error)
-      } finally {
-        clearTimeout(loadingTimeout)
-        setLoading(false)
-      }
-    }
-
-    getInitialSession()
+    // Clear any existing session and reset to login screen
+    setUser(null)
+    setProfile(null)
+    setLoading(false)
+    
+    // Sign out to clear any existing session
+    supabase.auth.signOut()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -59,7 +41,6 @@ export function useAuth() {
     )
 
     return () => {
-      clearTimeout(loadingTimeout)
       subscription.unsubscribe()
     }
   }, [])
