@@ -186,14 +186,34 @@ export function AdminDashboard() {
 
   const updateSystemConfig = async () => {
     try {
-      const { error } = await supabase
+      // First check if a config record exists
+      const { data: existingConfig } = await supabase
         .from('system_config')
-        .upsert({
-          id: '00000000-0000-4000-8000-000000000001',
-          points_per_dollar: systemConfig.points_per_dollar,
-          points_per_dollar_value: systemConfig.points_per_dollar_value,
-          updated_at: new Date().toISOString()
-        })
+        .select('id')
+        .single()
+
+      let error
+      if (existingConfig) {
+        // Update existing record
+        const { error: updateError } = await supabase
+          .from('system_config')
+          .update({
+            points_per_dollar: systemConfig.points_per_dollar,
+            points_per_dollar_value: systemConfig.points_per_dollar_value,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', existingConfig.id)
+        error = updateError
+      } else {
+        // Insert new record
+        const { error: insertError } = await supabase
+          .from('system_config')
+          .insert({
+            points_per_dollar: systemConfig.points_per_dollar,
+            points_per_dollar_value: systemConfig.points_per_dollar_value
+          })
+        error = insertError
+      }
 
       if (error) throw error
       setMessage('System configuration updated successfully!')
