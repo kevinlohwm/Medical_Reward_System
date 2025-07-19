@@ -111,6 +111,16 @@ export function useAuth() {
         password,
       })
       
+      if (error && error.message === 'Invalid login credentials') {
+        return { 
+          data, 
+          error: { 
+            ...error, 
+            message: 'Invalid login credentials. For demo accounts, please create them in your Supabase dashboard first (Authentication → Users).' 
+          } 
+        }
+      }
+      
       return { data, error }
     } catch (error) {
       console.error('Sign in exception:', error)

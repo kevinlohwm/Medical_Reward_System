@@ -139,7 +139,13 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
         {/* Demo Login Options */}
         <div className="space-y-3">
           <div className="text-center">
-            <p className="text-sm text-gray-600 font-semibold mb-3">Demo Login Options</p>
+            <p className="text-sm text-gray-600 font-semibold mb-3">Demo Login Options (Create these accounts first)</p>
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
+              <p className="text-xs text-amber-700">
+                <strong>Note:</strong> These demo accounts need to be created in your Supabase project first.
+                Go to your Supabase dashboard → Authentication → Users to create them.
+              </p>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 gap-3">
