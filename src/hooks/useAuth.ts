@@ -63,29 +63,35 @@ export function useAuth() {
   }
 
   const signUp = async (email: string, password: string, name: string, phone?: string) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
     })
 
-    if (data.user && !error) {
-      // Create user profile
-      const { error: profileError } = await supabase
-        .from('users')
-        .insert({
-          id: data.user.id,
-          email,
-          name,
-          phone_number: phone,
-          role: 'customer',
-        })
+    if (authData.user && !authError) {
+      // Wait for the session to be established
+      const { data: sessionData } = await supabase.auth.getSession()
+      
+      if (sessionData.session) {
+        // Create user profile with authenticated session
+        const { error: profileError } = await supabase
+          .from('users')
+          .insert({
+            id: authData.user.id,
+            email,
+            name,
+            phone_number: phone,
+            role: 'customer',
+          })
 
-      if (profileError) {
-        console.error('Error creating profile:', profileError)
+        if (profileError) {
+          console.error('Error creating profile:', profileError)
+          return { data: authData, error: profileError }
+        }
       }
     }
 
-    return { data, error }
+    return { data: authData, error: authError }
   }
 
   const signOut = async () => {
