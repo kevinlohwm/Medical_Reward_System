@@ -13,23 +13,29 @@ export function useAuth() {
   useEffect(() => {
     console.log('Auth hook initializing...')
     
-    const initAuth = async () => {
-      // Force clear any existing session
-      await supabase.auth.signOut()
-      
-      // Clear local storage
-      localStorage.clear()
-      sessionStorage.clear()
-      
-      // Reset state
-      setUser(null)
-      setProfile(null)
-      setLoading(false)
-      
-      console.log('Auth cleared, showing login screen')
+    // Get initial session
+    const getInitialSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        console.log('Initial session:', session)
+        
+        if (session?.user) {
+          setUser(session.user)
+          createProfile(session.user)
+        } else {
+          setUser(null)
+          setProfile(null)
+        }
+      } catch (error) {
+        console.error('Error getting initial session:', error)
+        setUser(null)
+        setProfile(null)
+      } finally {
+        setLoading(false)
+      }
     }
-    
-    initAuth()
+
+    getInitialSession()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -37,15 +43,13 @@ export function useAuth() {
         console.log('Auth state changed:', event, session)
         
         if (event === 'SIGNED_IN' && session?.user) {
-          console.log('User authenticated, loading profile...')
+          console.log('User signed in, creating profile...')
           setUser(session.user)
-          await loadProfile(session.user.id)
-          console.log('Profile loading completed, setting loading to false')
+          createProfile(session.user)
         } else if (event === 'SIGNED_OUT' || !session) {
-          console.log('No user session, clearing state')
+          console.log('User signed out, clearing state')
           setUser(null)
           setProfile(null)
-          setLoading(false)
         }
       }
     )
@@ -55,20 +59,15 @@ export function useAuth() {
     }
   }, [])
 
-  const loadProfile = async (userId: string) => {
-    console.log('Loading profile for user:', userId)
+  const createProfile = (user: User) => {
+    console.log('Creating profile for user:', user)
     
     try {
-      // Get user info from current auth session
-      const { data: { user } } = await supabase.auth.getUser()
-      console.log('Current auth user:', user)
-      
-      // Create profile directly from auth user data
       const profile: UserProfile = {
-        id: userId,
-        email: user?.email || '',
-        name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
-        phone_number: user?.user_metadata?.phone_number || null,
+        id: user.id,
+        email: user.email || '',
+        name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+        phone_number: user.user_metadata?.phone_number || null,
         points_balance: 0,
         role: 'customer',
         clinic_id: null,
@@ -77,15 +76,14 @@ export function useAuth() {
         updated_at: new Date().toISOString()
       }
       
-      console.log('Created profile from auth data:', profile)
-        setLoading(false)
+      console.log('Profile created:', profile)
       setProfile(profile)
     } catch (error) {
-      console.error('Error in loadProfile:', error)
-      // Create a minimal profile even on error
-      const fallbackProfile: UserProfile = {
-        id: userId,
-        email: 'user@example.com',
+      console.error('Error creating profile:', error)
+      // Create minimal fallback profile
+      setProfile({
+        id: user.id,
+        email: user.email || 'user@example.com',
         name: 'User',
         phone_number: null,
         points_balance: 0,
@@ -94,10 +92,7 @@ export function useAuth() {
         two_factor_enabled: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
-      }
-      console.log('Using fallback profile:', fallbackProfile)
-      setProfile(fallbackProfile)
-      setLoading(false)
+      })
     }
   }
 
@@ -142,7 +137,7 @@ export function useAuth() {
 
       return { data, error }
     } catch (error) {
-      console.error('Exception in signIn:', error)
+      console.error('Exception in signUp:', error)
       return { data: null, error }
     }
   }
