@@ -136,56 +136,31 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           </Button>
         </form>
 
-        {/* Demo Login Options */}
-        <div className="space-y-3">
-          <div className="text-center">
-            <p className="text-sm text-gray-600 font-semibold mb-3">Demo Login Options (Create these accounts first)</p>
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
-              <p className="text-xs text-amber-700">
-                <strong>Note:</strong> These demo accounts need to be created in your Supabase project first.
-                Go to your Supabase dashboard → Authentication → Users to create them.
-              </p>
+        {/* Account Setup Instructions */}
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <h4 className="font-semibold text-blue-800 mb-2">Account Setup Required</h4>
+          <p className="text-sm text-blue-700 mb-3">
+            Create accounts in your Supabase project to test different user roles:
+          </p>
+          <div className="space-y-2 text-xs text-blue-600">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+              <span><strong>Admin:</strong> Any email ending with @admin.com</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+              <span><strong>Staff:</strong> Any email ending with @staff.com</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+              <span><strong>Customer:</strong> Any other email address</span>
             </div>
           </div>
-          
-          <div className="grid grid-cols-1 gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setEmail('admin@medrewards.com')
-                setPassword('admin123')
-              }}
-              className="h-11 rounded-xl border-2 border-blue-200 hover:border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
-            >
-              🏥 Clinic Administrator
-            </Button>
-            
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setEmail('staff@medrewards.com')
-                setPassword('staff123')
-              }}
-              className="h-11 rounded-xl border-2 border-green-200 hover:border-green-300 bg-green-50 hover:bg-green-100 text-green-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
-            >
-              👩‍⚕️ Clinic Staff
-            </Button>
-            
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setEmail('customer@medrewards.com')
-                setPassword('customer123')
-              }}
-              className="h-11 rounded-xl border-2 border-purple-200 hover:border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
-            >
-              👤 Customer
-            </Button>
-          </div>
+          <p className="text-xs text-blue-600 mt-3">
+            Go to Supabase Dashboard → Authentication → Users → Add User
+          </p>
         </div>
+
         {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

@@ -65,9 +65,9 @@ export function useAuth() {
     try {
       // Determine role based on email for demo purposes
       let role: 'customer' | 'staff' | 'admin' = 'customer'
-      if (user.email === 'admin@medrewards.com') {
+      if (user.email?.endsWith('@admin.com')) {
         role = 'admin'
-      } else if (user.email === 'staff@medrewards.com') {
+      } else if (user.email?.endsWith('@staff.com')) {
         role = 'staff'
       }
       
@@ -110,16 +110,6 @@ export function useAuth() {
         email,
         password,
       })
-      
-      if (error && error.message === 'Invalid login credentials') {
-        return { 
-          data, 
-          error: { 
-            ...error, 
-            message: 'Invalid login credentials. For demo accounts, please create them in your Supabase dashboard first (Authentication → Users).' 
-          } 
-        }
-      }
       
       return { data, error }
     } catch (error) {
