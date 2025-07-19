@@ -7,6 +7,48 @@ import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import { Search, DollarSign, Gift, History, User, Award } from 'lucide-react'
 
+// Animation utility functions
+const animateCounter = (element: HTMLElement, start: number, end: number, duration: number = 1000) => {
+  const startTime = performance.now()
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const current = Math.floor(start + (end - start) * progress)
+    element.textContent = current.toString()
+    
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+  requestAnimationFrame(animate)
+}
+
+const showSuccessAnimation = (element: HTMLElement) => {
+  element.classList.add('success-animation', 'show')
+  setTimeout(() => {
+    element.classList.remove('success-animation', 'show')
+  }, 600)
+}
+
+const createConfetti = () => {
+  const container = document.createElement('div')
+  container.className = 'confetti-container'
+  document.body.appendChild(container)
+
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div')
+    confetti.className = 'confetti-piece'
+    confetti.style.left = Math.random() * 100 + '%'
+    confetti.style.animationDelay = Math.random() * 3 + 's'
+    confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'][Math.floor(Math.random() * 5)]
+    container.appendChild(confetti)
+  }
+
+  setTimeout(() => {
+    document.body.removeChild(container)
+  }, 3000)
+}
+
 interface Customer {
   id: string
   name: string
@@ -151,6 +193,19 @@ export function StaffDashboard() {
 
       if (updateError) throw updateError
 
+      // Show success animation and confetti
+      const awardButton = document.getElementById('award-points-button')
+      if (awardButton) {
+        showSuccessAnimation(awardButton)
+      }
+      createConfetti()
+
+      // Animate the points counter
+      const pointsElement = document.getElementById('customer-points-balance')
+      if (pointsElement) {
+        animateCounter(pointsElement, selectedCustomer.points_balance, selectedCustomer.points_balance + pointsEarned, 1000)
+      }
+
       setMessage(`Successfully awarded ${pointsEarned} points!`)
       setSelectedCustomer({
         ...selectedCustomer,
@@ -201,6 +256,18 @@ export function StaffDashboard() {
 
       if (updateError) throw updateError
 
+      // Show success animation
+      const redeemButton = document.getElementById('redeem-points-button')
+      if (redeemButton) {
+        showSuccessAnimation(redeemButton)
+      }
+
+      // Animate the points counter
+      const pointsElement = document.getElementById('customer-points-balance')
+      if (pointsElement) {
+        animateCounter(pointsElement, selectedCustomer.points_balance, selectedCustomer.points_balance - points, 1000)
+      }
+
       setMessage(`Successfully redeemed ${points} points for $${cashValue.toFixed(2)}!`)
       setSelectedCustomer({
         ...selectedCustomer,
@@ -223,7 +290,7 @@ export function StaffDashboard() {
   }
 
   return (
-    <div className="min-h-screen dark-bg p-6">
+    <div className="min-h-screen dark-bg py-6 container-padding">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -231,7 +298,7 @@ export function StaffDashboard() {
             <h1 className="text-3xl font-bold text-white heading-primary">Staff Portal</h1>
             <p className="text-slate-400">Manage customer rewards and transactions</p>
           </div>
-          <Button onClick={signOut} className="btn-danger">
+          <Button onClick={signOut} className="btn-danger focus-visible" aria-label="Sign out of staff portal">
             Sign Out
           </Button>
         </div>
@@ -240,7 +307,7 @@ export function StaffDashboard() {
         <Card className="mb-8 glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5 text-blue-400" />
+              <Search className="h-5 w-5 text-blue-400" aria-hidden="true" />
               Customer Lookup
             </CardTitle>
             <CardDescription className="text-slate-400">
@@ -256,9 +323,15 @@ export function StaffDashboard() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && searchCustomer()}
                   className="modern-input"
+                  aria-label="Search for customer by name, email, phone, or QR code"
                 />
               </div>
-              <Button onClick={searchCustomer} disabled={loading} className="btn-primary">
+              <Button 
+                onClick={searchCustomer} 
+                disabled={loading} 
+                className="btn-primary focus-visible"
+                aria-label="Search for customer"
+              >
                 {loading ? 'Searching...' : 'Search'}
               </Button>
             </div>
@@ -276,7 +349,7 @@ export function StaffDashboard() {
             {selectedCustomer && (
               <div className="mt-6 p-4 border rounded-lg glass-card">
                 <div className="flex items-center gap-3 mb-4">
-                  <User className="h-8 w-8 text-blue-400" />
+                  <User className="h-8 w-8 text-blue-400" aria-hidden="true" />
                   <div>
                     <h3 className="font-semibold text-lg text-white text-gradient">{selectedCustomer.name}</h3>
                     <p className="text-sm text-slate-400">{selectedCustomer.email}</p>
@@ -286,8 +359,10 @@ export function StaffDashboard() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-blue-400" />
-                  <span className="font-medium text-white">Points Balance: {selectedCustomer.points_balance}</span>
+                  <Award className="h-5 w-5 text-blue-400" aria-hidden="true" />
+                  <span className="font-medium text-white">
+                    Points Balance: <span id="customer-points-balance" className="animated-counter">{selectedCustomer.points_balance}</span>
+                  </span>
                   <span className="text-sm text-slate-400">
                     (${(selectedCustomer.points_balance * systemConfig.points_per_dollar_value).toFixed(2)} value)
                   </span>
@@ -303,7 +378,7 @@ export function StaffDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5 text-green-400" />
+                  <DollarSign className="h-5 w-5 text-green-400" aria-hidden="true" />
                   Award Points
                 </CardTitle>
                 <CardDescription className="text-slate-400">
@@ -321,14 +396,21 @@ export function StaffDashboard() {
                     value={billAmount}
                     onChange={(e) => setBillAmount(e.target.value)}
                     className="modern-input"
+                    aria-describedby="bill-amount-help"
                   />
                   {billAmount && (
-                    <p className="text-sm text-slate-400 mt-1">
+                    <p id="bill-amount-help" className="text-sm text-slate-400 mt-1">
                       Will award: {Math.floor(parseFloat(billAmount || '0') * systemConfig.points_per_dollar)} points
                     </p>
                   )}
                 </div>
-                <Button onClick={awardPoints} disabled={!billAmount || loading} className="w-full btn-success">
+                <Button 
+                  id="award-points-button"
+                  onClick={awardPoints} 
+                  disabled={!billAmount || loading} 
+                  className="w-full btn-success focus-visible"
+                  aria-label="Award points to customer"
+                >
                   Award Points
                 </Button>
               </CardContent>
@@ -337,7 +419,7 @@ export function StaffDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-purple-400" />
+                  <Gift className="h-5 w-5 text-purple-400" aria-hidden="true" />
                   Redeem Points
                 </CardTitle>
                 <CardDescription className="text-slate-400">
@@ -355,14 +437,21 @@ export function StaffDashboard() {
                     onChange={(e) => setPointsToRedeem(e.target.value)}
                     max={selectedCustomer.points_balance}
                     className="modern-input"
+                    aria-describedby="points-redeem-help"
                   />
                   {pointsToRedeem && (
-                    <p className="text-sm text-slate-400 mt-1">
+                    <p id="points-redeem-help" className="text-sm text-slate-400 mt-1">
                       Cash value: ${(parseInt(pointsToRedeem || '0') * systemConfig.points_per_dollar_value).toFixed(2)}
                     </p>
                   )}
                 </div>
-                <Button onClick={redeemPoints} disabled={!pointsToRedeem || loading} className="w-full btn-primary">
+                <Button 
+                  id="redeem-points-button"
+                  onClick={redeemPoints} 
+                  disabled={!pointsToRedeem || loading} 
+                  className="w-full btn-primary focus-visible"
+                  aria-label="Redeem customer points"
+                >
                   Redeem Points
                 </Button>
               </CardContent>
@@ -374,7 +463,7 @@ export function StaffDashboard() {
         <Card className="glass-card text-white">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <History className="h-5 w-5 text-blue-400" />
+              <History className="h-5 w-5 text-blue-400" aria-hidden="true" />
               Today's Transactions
             </CardTitle>
             <CardDescription className="text-slate-400">
@@ -391,7 +480,11 @@ export function StaffDashboard() {
                     <div>
                       <p className="font-medium text-white">{transaction.users.name}</p>
                       <p className="text-sm text-slate-400">{transaction.users.email}</p>
-                      <p className="text-sm text-slate-400">{formatDate(transaction.created_at)}</p>
+                      <p className="text-sm text-slate-400">
+                        <time dateTime={transaction.created_at}>
+                          {formatDate(transaction.created_at)}
+                        </time>
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-green-400 text-gradient">+{transaction.points_earned} points</p>

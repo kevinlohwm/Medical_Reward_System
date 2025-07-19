@@ -7,6 +7,48 @@ import { supabase } from '../../lib/supabase'
 import { QrCode, Gift, MapPin, Clock, Phone, Mail, Star, History, Award, TrendingUp, Calendar } from 'lucide-react'
 import QRCode from 'qrcode'
 
+// Animation utility functions
+const animateCounter = (element: HTMLElement, start: number, end: number, duration: number = 1000) => {
+  const startTime = performance.now()
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const current = Math.floor(start + (end - start) * progress)
+    element.textContent = current.toString()
+    
+    if (progress < 1) {
+      requestAnimationFrame(animate)
+    }
+  }
+  requestAnimationFrame(animate)
+}
+
+const showSuccessAnimation = (element: HTMLElement) => {
+  element.classList.add('success-animation', 'show')
+  setTimeout(() => {
+    element.classList.remove('success-animation', 'show')
+  }, 600)
+}
+
+const createConfetti = () => {
+  const container = document.createElement('div')
+  container.className = 'confetti-container'
+  document.body.appendChild(container)
+
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div')
+    confetti.className = 'confetti-piece'
+    confetti.style.left = Math.random() * 100 + '%'
+    confetti.style.animationDelay = Math.random() * 3 + 's'
+    confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'][Math.floor(Math.random() * 5)]
+    container.appendChild(confetti)
+  }
+
+  setTimeout(() => {
+    document.body.removeChild(container)
+  }, 3000)
+}
+
 interface Transaction {
   id: string
   bill_amount: number
@@ -56,11 +98,19 @@ export function CustomerDashboard() {
   const [clinics, setClinics] = useState<Clinic[]>([])
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [loading, setLoading] = useState(true)
+  const [animatedPoints, setAnimatedPoints] = useState(0)
 
   useEffect(() => {
     if (profile) {
       generateQRCode()
       fetchData()
+      // Animate points counter on load
+      setTimeout(() => {
+        const pointsElement = document.getElementById('points-counter')
+        if (pointsElement && profile.points_balance > 0) {
+          animateCounter(pointsElement, 0, profile.points_balance, 1500)
+        }
+      }, 500)
     }
   }, [profile])
 
@@ -157,9 +207,19 @@ export function CustomerDashboard() {
     }
   }
 
+  const handleSignOut = async () => {
+    const button = document.getElementById('signout-button')
+    if (button) {
+      showSuccessAnimation(button)
+    }
+    setTimeout(() => {
+      signOut()
+    }, 300)
+  }
+
   if (loading) {
     return (
-      <div className="min-h-screen dark-bg flex items-center justify-center">
+      <div className="min-h-screen dark-bg flex items-center justify-center container-padding">
         <div className="text-center">
           <div className="w-16 h-16 modern-spinner mx-auto mb-4"></div>
           <p className="text-white text-xl font-medium">Loading your dashboard...</p>
@@ -169,7 +229,7 @@ export function CustomerDashboard() {
   }
 
   return (
-    <div className="min-h-screen dark-bg p-6">
+    <div className="min-h-screen dark-bg py-6 container-padding">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8 animate-fade-in">
@@ -179,7 +239,12 @@ export function CustomerDashboard() {
             </h1>
             <p className="text-slate-400 text-xl">Manage your rewards and explore benefits</p>
           </div>
-          <Button onClick={signOut} className="btn-danger">
+          <Button 
+            id="signout-button"
+            onClick={handleSignOut} 
+            className="btn-danger focus-visible"
+            aria-label="Sign out of your account"
+          >
             Sign Out
           </Button>
         </div>
@@ -194,7 +259,13 @@ export function CustomerDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-5xl font-bold mb-2 text-gradient">{profile?.points_balance || 0}</div>
+              <div 
+                id="points-counter"
+                className="text-5xl font-bold mb-2 text-gradient animated-counter"
+                aria-live="polite"
+              >
+                {profile?.points_balance || 0}
+              </div>
               <p className="text-slate-300 text-lg">
                 Cash Value: ${((profile?.points_balance || 0) * 0.01).toFixed(2)}
               </p>
