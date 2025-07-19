@@ -170,7 +170,7 @@ export function StaffDashboard() {
         .eq('role', 'customer')
         .or(orConditions.join(','))
         .limit(1)
-        .single()
+        .maybeSingle()
 
       if (data) {
         setSelectedCustomer(data)
