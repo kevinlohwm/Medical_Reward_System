@@ -97,12 +97,23 @@ export function useAuth() {
   }
 
   const signIn = async (email: string, password: string) => {
+    console.log('=== SIGN IN FUNCTION CALLED ===')
+    console.log('Email:', email)
+    
     console.log('Attempting to sign in with:', email)
     
     try {
+      console.log('Calling supabase.auth.signInWithPassword...')
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
+      })
+      
+      console.log('Supabase signInWithPassword response:', { 
+        data: data ? 'Present' : 'Null', 
+        error: error ? error.message : 'None',
+        session: data?.session ? 'Present' : 'Null',
+        user: data?.user ? 'Present' : 'Null'
       })
       
       console.log('Sign in response:', { data, error })
@@ -147,6 +158,7 @@ export function useAuth() {
 
       return { data, error }
     } catch (error) {
+      console.error('Exception in signIn:', error)
       return { data: null, error }
     }
   }

@@ -20,17 +20,38 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('=== SIGN IN ATTEMPT STARTED ===')
+    console.log('Email:', email)
+    console.log('Password length:', password.length)
+    
     setLoading(true)
     setError('')
 
+    // Add a timeout to prevent infinite hanging
+    const timeoutId = setTimeout(() => {
+      console.log('Sign in timeout reached')
+      setLoading(false)
+      setError('Sign in timed out. Please try again.')
+    }, 10000) // 10 second timeout
+
     console.log('Form submitted, attempting sign in...')
+      console.log('Calling signIn function...')
     
+      console.log('Sign in result:', result)
+      
+      clearTimeout(timeoutId)
     const { error } = await signIn(email, password)
     
+        console.log('Sign in error:', result.error)
     console.log('Sign in completed, error:', error)
     
+      } else {
+        console.log('Sign in successful, waiting for auth state change...')
+        // Don't set loading to false here - let auth state change handle it
     if (error) {
       console.log('Setting error and stopping loading')
+      console.error('Sign in exception:', error)
+      clearTimeout(timeoutId)
       setError('Invalid email or password. Please try again.')
       setLoading(false)
     }
