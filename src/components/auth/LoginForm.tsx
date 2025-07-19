@@ -20,34 +20,24 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('=== SIGN IN ATTEMPT STARTED ===')
-    console.log('Email:', email)
-    console.log('Password length:', password.length)
     
     setLoading(true)
     setError('')
 
-    // Add a timeout to prevent infinite hanging
-    const timeoutId = setTimeout(() => {
-      console.log('Sign in timeout reached')
-      setLoading(false)
-      setError('Sign in timed out. Please try again.')
-    }, 10000) // 10 second timeout
-
-    console.log('Form submitted, attempting sign in...')
-    console.log('Calling signIn function...')
-    
-    const { error } = await signIn(email, password)
-    clearTimeout(timeoutId)
-    
-    console.log('Sign in completed, error:', error)
-
-    if (error) {
+    try {
+      const { error } = await signIn(email, password)
+      
+      if (error) {
+        console.error('Sign in error:', error)
+        setError(error.message || 'Invalid email or password. Please try again.')
+        setLoading(false)
+      }
+      // On success, loading will be set to false by auth state change
+    } catch (error) {
       console.error('Sign in exception:', error)
-      setError('Invalid email or password. Please try again.')
+      setError('An error occurred during sign in. Please try again.')
       setLoading(false)
     }
-    // On success, don't set loading to false - let auth state change handle it
   }
 
   const handleSocialLogin = (provider: string) => {
