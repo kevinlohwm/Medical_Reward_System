@@ -133,13 +133,27 @@ export function useAuth() {
 
   const signIn = async (email: string, password: string) => {
     try {
+      console.log('Starting sign in process...')
+      setLoading(true)
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
+      
+      console.log('Sign in response:', { data: !!data, error: !!error })
+      
+      if (error) {
+        console.error('Sign in error:', error)
+        setLoading(false)
+        return { data, error }
+      }
+      
+      // Don't set loading to false here - let the auth state change handler do it
       return { data, error }
     } catch (error) {
       console.error('Sign in error:', error)
+      setLoading(false)
       return { data: null, error }
     }
   }

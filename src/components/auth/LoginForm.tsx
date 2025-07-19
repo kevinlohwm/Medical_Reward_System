@@ -23,13 +23,21 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
     setLoading(true)
     setError('')
 
+    try {
     const { error } = await signIn(email, password)
     
     if (error) {
       setError('Invalid email or password. Please try again.')
+        setLoading(false)
+      } else {
+        // Success - don't set loading to false here, let the auth state change handle it
+        console.log('Sign in successful, waiting for auth state change...')
     }
-    
-    setLoading(false)
+    } catch (error) {
+      console.error('Login form error:', error)
+      setError('An unexpected error occurred. Please try again.')
+      setLoading(false)
+    }
   }
 
   const handleSocialLogin = (provider: string) => {
