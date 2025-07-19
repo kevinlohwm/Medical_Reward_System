@@ -87,8 +87,10 @@ export function StaffDashboard() {
 
   useEffect(() => {
     fetchSystemConfig()
-    fetchTodaysTransactions()
-  }, [])
+    if (profile?.clinic_id) {
+      fetchTodaysTransactions()
+    }
+  }, [profile?.clinic_id])
 
   const fetchSystemConfig = async () => {
     try {
@@ -106,6 +108,11 @@ export function StaffDashboard() {
   }
 
   const fetchTodaysTransactions = async () => {
+    if (!profile?.clinic_id) {
+      console.warn('No clinic_id available, skipping transaction fetch')
+      return
+    }
+
     try {
       const today = new Date().toISOString().split('T')[0]
       const { data } = await supabase
@@ -124,6 +131,11 @@ export function StaffDashboard() {
     }
   }
 
+  const isValidUUID = (str: string): boolean => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+    return uuidRegex.test(str)
+  }
+
   const searchCustomer = async () => {
     if (!searchTerm.trim()) return
 
@@ -140,11 +152,23 @@ export function StaffDashboard() {
         // Not QR code data, continue with regular search
       }
 
+      // Build the query conditions based on whether searchQuery is a valid UUID
+      let orConditions = [
+        `email.ilike.%${searchQuery}%`,
+        `name.ilike.%${searchQuery}%`,
+        `phone_number.ilike.%${searchQuery}%`
+      ]
+
+      // Only add UUID search if the search query is a valid UUID
+      if (isValidUUID(searchQuery)) {
+        orConditions.unshift(`id.eq.${searchQuery}`)
+      }
+
       const { data } = await supabase
         .from('users')
         .select('id, name, email, phone_number, points_balance')
         .eq('role', 'customer')
-        .or(`id.eq.${searchQuery},email.ilike.%${searchQuery}%,name.ilike.%${searchQuery}%,phone_number.ilike.%${searchQuery}%`)
+        .or(orConditions.join(','))
         .limit(1)
         .single()
 
