@@ -46,7 +46,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
   }
 
   return (
-    <Card className="glass-card border-0 shadow-2xl animate-scale-in rounded-3xl overflow-hidden rotating-border">
+    <Card className="glass-card border-0 shadow-2xl animate-scale-in rounded-3xl overflow-hidden rotating-border neon-glow">
       <CardHeader className="text-center pb-6">
         <CardTitle className="text-3xl font-bold holographic-text">
           Welcome Back
@@ -117,11 +117,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           )}
 
           {/* Login Button */}
-          <Button 
-            type="submit" 
-            className="cyber-btn w-full h-12 group" 
-            disabled={loading}
-          >
+          <Button type="submit" className="cyber-btn w-full h-12 group" disabled={loading}>
             {loading ? (
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 cyber-spinner"></div>
@@ -177,7 +173,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
             type="button"
             variant="outline"
             onClick={() => handleSocialLogin('google')}
-            className="h-12 rounded-xl border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md group backdrop-blur-sm text-white"
+            className="h-12 rounded-xl border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md group backdrop-blur-sm text-white neon-glow"
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -191,7 +187,7 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
             type="button"
             variant="outline"
             onClick={() => handleSocialLogin('facebook')}
-            className="h-12 rounded-xl border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md group backdrop-blur-sm text-white"
+            className="h-12 rounded-xl border-2 border-white/30 hover:border-white/50 bg-white/10 hover:bg-white/20 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md group backdrop-blur-sm text-white neon-glow-green"
           >
             <svg className="w-5 h-5 mr-2" fill="#1877F2" viewBox="0 0 24 24">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>

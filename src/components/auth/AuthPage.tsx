@@ -10,19 +10,19 @@ export function AuthPage() {
       {/* Animated background elements */}
       <div className="absolute inset-0">
         {/* Floating holographic shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 holographic rounded-3xl opacity-30 float" style={{ animationDelay: '0s' }}></div>
-        <div className="absolute top-40 right-32 w-24 h-24 cyber-gradient-3 rounded-full opacity-40 float-delayed neon-glow" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-32 w-40 h-40 cyber-gradient-4 rounded-2xl opacity-35 float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 left-20 w-32 h-32 cyber-gradient-1 rounded-3xl opacity-30 float neon-glow" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute top-40 right-32 w-24 h-24 cyber-gradient-3 rounded-full opacity-40 float-delayed neon-glow-green" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-32 left-32 w-40 h-40 cyber-gradient-4 rounded-2xl opacity-35 float neon-glow-purple" style={{ animationDelay: '2s' }}></div>
         <div className="absolute bottom-20 right-20 w-28 h-28 cyber-gradient-5 rounded-full opacity-30 float-delayed pulse-glow" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute top-1/2 left-10 w-16 h-16 cyber-gradient-2 rounded-xl opacity-25 float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute top-1/2 left-10 w-16 h-16 cyber-gradient-2 rounded-xl opacity-25 float neon-glow-pink" style={{ animationDelay: '3s' }}></div>
         <div className="absolute top-1/3 right-10 w-20 h-20 cyber-gradient-6 rounded-2xl opacity-30 float-delayed" style={{ animationDelay: '4s' }}></div>
         
         {/* Particle effects */}
         <div className="absolute top-0 left-0 w-full h-full">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-white rounded-full opacity-60 animate-ping"
+              className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-ping"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
