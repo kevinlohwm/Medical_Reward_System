@@ -21,6 +21,7 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   const { signUp } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -40,15 +41,23 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
       return
     }
 
-    const { error } = await signUp(
+    const result = await signUp(
       formData.email,
       formData.password,
       formData.name,
       formData.phone
     )
     
-    if (error) {
-      setError(error.message)
+    if (result.error) {
+      setError(result.error.message)
+    } else if (result.message) {
+      // Show success message for email confirmation
+      setError('')
+      setMessage(result.message)
+    } else {
+      // Successful signup with immediate login
+      setError('')
+      setMessage('Account created successfully!')
     }
     
     setLoading(false)
@@ -213,6 +222,14 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
             <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl animate-shake">
               <AlertCircle className="h-5 w-5 flex-shrink-0" />
               <span className="text-sm">{error}</span>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {message && (
+            <div className="flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl">
+              <Check className="h-5 w-5 flex-shrink-0" />
+              <span className="text-sm">{message}</span>
             </div>
           )}
 

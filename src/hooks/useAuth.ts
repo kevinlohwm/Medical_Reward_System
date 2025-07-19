@@ -63,7 +63,6 @@ export function useAuth() {
   }
 
   const signUp = async (email: string, password: string, name: string, phone?: string) => {
-    // First, sign up the user
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -74,6 +73,19 @@ export function useAuth() {
         }
       }
     })
+
+    if (error) {
+      return { data, error }
+    }
+
+    // Check if user needs email confirmation
+    if (data.user && !data.session) {
+      return { 
+        data, 
+        error: null,
+        message: 'Please check your email to confirm your account before signing in.'
+      }
+    }
 
     return { data, error }
   }
