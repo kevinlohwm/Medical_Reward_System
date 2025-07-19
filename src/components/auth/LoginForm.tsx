@@ -23,15 +23,18 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
     setLoading(true)
     setError('')
 
+    console.log('Form submitted, attempting sign in...')
+    
     const { error } = await signIn(email, password)
     
+    console.log('Sign in completed, error:', error)
+    
     if (error) {
+      console.log('Setting error and stopping loading')
       setError('Invalid email or password. Please try again.')
       setLoading(false)
-    } else {
-      // Success - the auth state change will handle the rest
-      // Keep loading true until auth state updates
     }
+    // On success, don't set loading to false - let auth state change handle it
   }
 
   const handleSocialLogin = (provider: string) => {

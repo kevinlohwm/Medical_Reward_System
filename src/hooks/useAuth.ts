@@ -11,75 +11,59 @@ export function useAuth() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let mounted = true
+    console.log('Auth hook initializing...')
     
-    // Force loading to false after 3 seconds maximum
-    const forceLoadingTimeout = setTimeout(() => {
-      if (mounted) {
-        console.log('Force setting loading to false after timeout')
-        setLoading(false)
-      }
-    }, 3000)
-    
-    const initAuth = async () => {
+    // Set a maximum loading time of 2 seconds
+    const loadingTimeout = setTimeout(() => {
+      console.log('Loading timeout reached, setting loading to false')
+      setLoading(false)
+    }, 2000)
+
+    // Get initial session
+    const getInitialSession = async () => {
       try {
-        console.log('Initializing auth...')
-        const { data: { session }, error } = await supabase.auth.getSession()
+        const { data: { session } } = await supabase.auth.getSession()
+        console.log('Initial session:', session)
         
-        if (error) {
-          console.error('Error getting session:', error)
-          if (mounted) {
-            setLoading(false)
-          }
-          return
-        }
-        
-        console.log('Session:', session)
-        
-        if (session?.user && mounted) {
+        if (session?.user) {
           setUser(session.user)
-          await loadUserProfile(session.user.id)
-        } else if (mounted) {
-          setLoading(false)
+          await loadProfile(session.user.id)
         }
       } catch (error) {
-        console.error('Error in initAuth:', error)
-        if (mounted) {
-          setLoading(false)
-        }
+        console.error('Error getting initial session:', error)
+      } finally {
+        clearTimeout(loadingTimeout)
+        setLoading(false)
       }
     }
-    
-    initAuth()
+
+    getInitialSession()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state change:', event, session)
-        
-        if (!mounted) return
+        console.log('Auth state changed:', event, session)
         
         if (session?.user) {
           setUser(session.user)
-          await loadUserProfile(session.user.id)
+          await loadProfile(session.user.id)
         } else {
           setUser(null)
           setProfile(null)
-          setLoading(false)
         }
+        setLoading(false)
       }
     )
 
     return () => {
-      mounted = false
-      clearTimeout(forceLoadingTimeout)
+      clearTimeout(loadingTimeout)
       subscription.unsubscribe()
     }
   }, [])
 
-  const loadUserProfile = async (userId: string) => {
+  const loadProfile = async (userId: string) => {
     try {
-      console.log('Loading user profile for:', userId)
+      console.log('Loading profile for user:', userId)
       
       const { data, error } = await supabase
         .from('users')
@@ -87,51 +71,52 @@ export function useAuth() {
         .eq('id', userId)
         .single()
 
-      if (error) {
-        console.error('Error loading profile:', error)
-        // If profile doesn't exist, create a basic one
-        if (error.code === 'PGRST116') {
-          console.log('Profile not found, creating basic profile')
-          const basicProfile: UserProfile = {
-            id: userId,
-            email: user?.email || '',
-            name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
-            phone_number: null,
-            points_balance: 0,
-            role: 'customer',
-            clinic_id: null,
-            two_factor_enabled: false,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-          setProfile(basicProfile)
+      if (data) {
+        console.log('Profile loaded:', data)
+        setProfile(data)
+      } else {
+        console.log('No profile found, creating basic profile')
+        // Create a basic profile if none exists
+        const basicProfile: UserProfile = {
+          id: userId,
+          email: user?.email || '',
+          name: user?.user_metadata?.name || user?.email?.split('@')[0] || 'User',
+          phone_number: null,
+          points_balance: 0,
+          role: 'customer',
+          clinic_id: null,
+          two_factor_enabled: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
-        setLoading(false)
-        return
+        setProfile(basicProfile)
       }
-
-      console.log('Profile loaded:', data)
-      setProfile(data)
-      setLoading(false)
     } catch (error) {
-      console.error('Error in loadUserProfile:', error)
-      setLoading(false)
+      console.error('Error loading profile:', error)
     }
   }
 
   const signIn = async (email: string, password: string) => {
+    console.log('Attempting to sign in with:', email)
+    
     try {
-      console.log('Attempting sign in for:', email)
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
       
-      console.log('Sign in result:', { data, error })
-      return { data, error }
+      console.log('Sign in response:', { data, error })
+      
+      if (error) {
+        console.error('Sign in error:', error)
+        return { error }
+      }
+      
+      // Don't set loading here - let the auth state change handle it
+      return { data, error: null }
     } catch (error) {
-      console.error('Error in signIn:', error)
-      return { data: null, error }
+      console.error('Sign in exception:', error)
+      return { error }
     }
   }
 
@@ -169,6 +154,10 @@ export function useAuth() {
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut()
+      if (!error) {
+        setUser(null)
+        setProfile(null)
+      }
       return { error }
     } catch (error) {
       return { error }
