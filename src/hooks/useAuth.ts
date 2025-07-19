@@ -11,13 +11,35 @@ export function useAuth() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
-    getInitialSession()
+    let mounted = true
+    
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        
+        if (!mounted) return
+        
+        if (session?.user) {
+          setUser(session.user)
+          await loadUserProfile(session.user.id)
+        }
+      } catch (error) {
+        console.error('Error getting initial session:', error)
+      } finally {
+        if (mounted) {
+          setLoading(false)
+        }
+      }
+    }
+    
+    initAuth()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth event:', event)
+        
+        if (!mounted) return
         
         if (session?.user) {
           setUser(session.user)
@@ -26,30 +48,14 @@ export function useAuth() {
           setUser(null)
           setProfile(null)
         }
-        
-        setLoading(false)
       }
     )
 
     return () => {
+      mounted = false
       subscription.unsubscribe()
     }
   }, [])
-
-  const getInitialSession = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (session?.user) {
-        setUser(session.user)
-        await loadUserProfile(session.user.id)
-      }
-    } catch (error) {
-      console.error('Error getting session:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const loadUserProfile = async (userId: string) => {
     try {
@@ -78,13 +84,22 @@ export function useAuth() {
           
           if (newProfile) {
             setProfile(newProfile)
+            setLoading(false)
+            setLoading(false)
           }
+        } else {
+          setLoading(false)
         }
       } else if (!error && data) {
         setProfile(data)
+        setLoading(false)
+      } else {
+        console.error('Error loading profile:', error)
+        setLoading(false)
       }
     } catch (error) {
       console.error('Error loading profile:', error)
+      setLoading(false)
     }
   }
 
