@@ -258,72 +258,72 @@ export function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen dark-bg">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading admin dashboard...</p>
+          <div className="w-12 h-12 modern-spinner mx-auto"></div>
+          <p className="mt-4 text-slate-400">Loading admin dashboard...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen animated-bg p-4">
+    <div className="min-h-screen dark-bg p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white holographic-text">Admin Dashboard</h1>
-            <p className="text-white/80">Manage the entire loyalty program</p>
+            <h1 className="text-3xl font-bold text-white heading-primary">Admin Dashboard</h1>
+            <p className="text-slate-400">Manage the entire loyalty program</p>
           </div>
-          <Button onClick={signOut} className="cyber-btn">
+          <Button onClick={signOut} className="btn-danger">
             Sign Out
           </Button>
         </div>
 
         {/* Analytics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="stats-card-1 text-white interactive-card neon-glow">
+          <Card className="stats-card text-white interactive-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Members</CardTitle>
-              <Users className="h-4 w-4 text-white/80" />
+              <Users className="h-4 w-4 text-blue-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold holographic-text">{analytics.totalMembers}</div>
+              <div className="text-2xl font-bold text-gradient">{analytics.totalMembers}</div>
             </CardContent>
           </Card>
 
-          <Card className="stats-card-2 text-white interactive-card neon-glow-green">
+          <Card className="stats-card-success text-white interactive-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Points in Circulation</CardTitle>
-              <Award className="h-4 w-4 text-white/80" />
+              <Award className="h-4 w-4 text-green-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold holographic-text">{analytics.totalPointsInCirculation.toLocaleString()}</div>
-              <p className="text-xs text-white/80">
+              <div className="text-2xl font-bold text-gradient">{analytics.totalPointsInCirculation.toLocaleString()}</div>
+              <p className="text-xs text-slate-300">
                 ${(analytics.totalPointsInCirculation * systemConfig.points_per_dollar_value).toFixed(2)} value
               </p>
             </CardContent>
           </Card>
 
-          <Card className="stats-card-3 text-white interactive-card neon-glow-purple">
+          <Card className="stats-card-warning text-white interactive-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Transactions</CardTitle>
-              <BarChart3 className="h-4 w-4 text-white/80" />
+              <BarChart3 className="h-4 w-4 text-yellow-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold holographic-text">{analytics.totalTransactions}</div>
+              <div className="text-2xl font-bold text-gradient">{analytics.totalTransactions}</div>
             </CardContent>
           </Card>
 
-          <Card className="stats-card-4 text-white interactive-card neon-glow">
+          <Card className="stats-card-danger text-white interactive-card">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Top Clinic</CardTitle>
-              <TrendingUp className="h-4 w-4 text-white/80" />
+              <TrendingUp className="h-4 w-4 text-red-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg font-bold holographic-text">{analytics.topClinic}</div>
-              <p className="text-xs text-white/80">
+              <div className="text-lg font-bold text-gradient">{analytics.topClinic}</div>
+              <p className="text-xs text-slate-300">
                 Avg spending: ${analytics.averageSpending.toFixed(2)}
               </p>
             </CardContent>
@@ -340,43 +340,43 @@ export function AdminDashboard() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="customers" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 glass-card border-0 shadow-xl rounded-2xl p-2">
-            <TabsTrigger value="customers" className="cyber-tab">Customer Management</TabsTrigger>
-            <TabsTrigger value="promotions" className="cyber-tab">Promotions</TabsTrigger>
-            <TabsTrigger value="settings" className="cyber-tab">System Settings</TabsTrigger>
+          <TabsList className="nav-tabs grid w-full grid-cols-3">
+            <TabsTrigger value="customers" className="nav-tab">Customer Management</TabsTrigger>
+            <TabsTrigger value="promotions" className="nav-tab">Promotions</TabsTrigger>
+            <TabsTrigger value="settings" className="nav-tab">System Settings</TabsTrigger>
           </TabsList>
 
           {/* Customer Management */}
           <TabsContent value="customers">
             <Card className="glass-card text-white">
               <CardHeader>
-                <CardTitle className="holographic-text">Customer Segmentation</CardTitle>
-                <CardDescription className="text-white/80">
+                <CardTitle className="heading-secondary">Customer Segmentation</CardTitle>
+                <CardDescription className="text-slate-400">
                   View and analyze customer data for targeted marketing
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {customers.map((customer) => (
-                    <div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg glass-card border-white/20 interactive-card">
+                    <div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg glass-card interactive-card">
                       <div>
                         <p className="font-medium text-white">{customer.name}</p>
-                        <p className="text-sm text-white/70">{customer.email}</p>
-                        <p className="text-sm text-white/70">
+                        <p className="text-sm text-slate-400">{customer.email}</p>
+                        <p className="text-sm text-slate-400">
                           Joined: {formatDate(customer.created_at)}
                         </p>
                         {customer.last_visit && (
-                          <p className="text-sm text-white/70">
+                          <p className="text-sm text-slate-400">
                             Last visit: {formatDate(customer.last_visit)}
                           </p>
                         )}
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-white holographic-text">{customer.points_balance} points</p>
-                        <p className="text-sm text-white/70">
+                        <p className="font-medium text-white text-gradient">{customer.points_balance} points</p>
+                        <p className="text-sm text-slate-400">
                           ${customer.total_spending.toFixed(2)} spent
                         </p>
-                        <p className="text-sm text-white/70">
+                        <p className="text-sm text-slate-400">
                           {customer.visit_count} visits
                         </p>
                       </div>
@@ -392,18 +392,18 @@ export function AdminDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  <span className="holographic-text">Campaign Management</span>
+                  <span className="heading-secondary">Campaign Management</span>
                   <Dialog open={isPromotionDialogOpen} onOpenChange={setIsPromotionDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button type="button" onClick={() => setIsPromotionDialogOpen(true)} className="cyber-btn">
+                      <Button type="button" onClick={() => setIsPromotionDialogOpen(true)} className="btn-primary">
                         <Plus className="h-4 w-4 mr-2" />
                         Create Promotion
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="glass-card text-white border-white/20">
+                    <DialogContent className="glass-card text-white">
                       <DialogHeader>
-                        <DialogTitle className="holographic-text">Create New Promotion</DialogTitle>
-                        <DialogDescription className="text-white/80">
+                        <DialogTitle className="heading-secondary">Create New Promotion</DialogTitle>
+                        <DialogDescription className="text-slate-400">
                           Create a targeted promotion for your customers
                         </DialogDescription>
                       </DialogHeader>
@@ -415,7 +415,7 @@ export function AdminDashboard() {
                             value={promotionForm.title}
                             onChange={(e) => setPromotionForm(prev => ({ ...prev, title: e.target.value }))}
                             placeholder="e.g., Double Points Weekend"
-                            className="cyber-input"
+                            className="modern-input"
                           />
                         </div>
                         <div>
@@ -425,7 +425,7 @@ export function AdminDashboard() {
                             value={promotionForm.description}
                             onChange={(e) => setPromotionForm(prev => ({ ...prev, description: e.target.value }))}
                             placeholder="Describe the promotion details"
-                            className="cyber-input"
+                            className="modern-input"
                           />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -436,7 +436,7 @@ export function AdminDashboard() {
                               type="date"
                               value={promotionForm.startDate}
                               onChange={(e) => setPromotionForm(prev => ({ ...prev, startDate: e.target.value }))}
-                              className="cyber-input"
+                              className="modern-input"
                             />
                           </div>
                           <div>
@@ -446,11 +446,11 @@ export function AdminDashboard() {
                               type="date"
                               value={promotionForm.endDate}
                               onChange={(e) => setPromotionForm(prev => ({ ...prev, endDate: e.target.value }))}
-                              className="cyber-input"
+                              className="modern-input"
                             />
                           </div>
                         </div>
-                        <Button onClick={createPromotion} className="w-full cyber-btn">
+                        <Button onClick={createPromotion} className="w-full btn-success">
                           <Send className="h-4 w-4 mr-2" />
                           Create Promotion
                         </Button>
@@ -458,12 +458,12 @@ export function AdminDashboard() {
                     </DialogContent>
                   </Dialog>
                 </CardTitle>
-                <CardDescription className="text-white/80">
+                <CardDescription className="text-slate-400">
                   Create and manage promotional campaigns
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-center text-white/70 py-8">
+                <p className="text-center text-slate-400 py-8">
                   Use the "Create Promotion" button to start a new campaign
                 </p>
               </CardContent>
@@ -475,10 +475,10 @@ export function AdminDashboard() {
             <Card className="glass-card text-white">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5 text-blue-400 neon-glow" />
+                  <Settings className="h-5 w-5 text-blue-400" />
                   System Configuration
                 </CardTitle>
-                <CardDescription className="text-white/80">
+                <CardDescription className="text-slate-400">
                   Configure point earning and redemption rates
                 </CardDescription>
               </CardHeader>
@@ -495,9 +495,9 @@ export function AdminDashboard() {
                         ...prev, 
                         points_per_dollar: parseFloat(e.target.value) || 0 
                       }))}
-                      className="cyber-input"
+                      className="modern-input"
                     />
-                    <p className="text-sm text-white/70 mt-1">
+                    <p className="text-sm text-slate-400 mt-1">
                       How many points customers earn per dollar spent
                     </p>
                   </div>
@@ -512,9 +512,9 @@ export function AdminDashboard() {
                         ...prev, 
                         points_per_dollar_value: parseFloat(e.target.value) || 0 
                       }))}
-                      className="cyber-input"
+                      className="modern-input"
                     />
-                    <p className="text-sm text-white/70 mt-1">
+                    <p className="text-sm text-slate-400 mt-1">
                       Dollar value of each point when redeemed
                     </p>
                   </div>
@@ -522,18 +522,18 @@ export function AdminDashboard() {
                 
                 <div className="p-4 notification-info rounded-lg">
                   <h4 className="font-medium mb-2 text-white">Current Configuration:</h4>
-                  <p className="text-sm text-white/90">
+                  <p className="text-sm text-slate-300">
                     • Customers earn {systemConfig.points_per_dollar} point(s) per $1 spent
                   </p>
-                  <p className="text-sm text-white/90">
+                  <p className="text-sm text-slate-300">
                     • Each point is worth ${systemConfig.points_per_dollar_value.toFixed(3)} when redeemed
                   </p>
-                  <p className="text-sm text-white/90">
+                  <p className="text-sm text-slate-300">
                     • 100 points = ${(100 * systemConfig.points_per_dollar_value).toFixed(2)} cash value
                   </p>
                 </div>
 
-                <Button onClick={updateSystemConfig} className="cyber-btn">
+                <Button onClick={updateSystemConfig} className="btn-primary">
                   Update Configuration
                 </Button>
               </CardContent>
