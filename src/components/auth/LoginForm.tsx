@@ -136,6 +136,50 @@ export function LoginForm({ onToggleForm }: LoginFormProps) {
           </Button>
         </form>
 
+        {/* Demo Login Options */}
+        <div className="space-y-3">
+          <div className="text-center">
+            <p className="text-sm text-gray-600 font-semibold mb-3">Demo Login Options</p>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setEmail('admin@medrewards.com')
+                setPassword('admin123')
+              }}
+              className="h-11 rounded-xl border-2 border-blue-200 hover:border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
+            >
+              🏥 Clinic Administrator
+            </Button>
+            
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setEmail('staff@medrewards.com')
+                setPassword('staff123')
+              }}
+              className="h-11 rounded-xl border-2 border-green-200 hover:border-green-300 bg-green-50 hover:bg-green-100 text-green-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
+            >
+              👩‍⚕️ Clinic Staff
+            </Button>
+            
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setEmail('customer@medrewards.com')
+                setPassword('customer123')
+              }}
+              className="h-11 rounded-xl border-2 border-purple-200 hover:border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
+            >
+              👤 Customer
+            </Button>
+          </div>
+        </div>
         {/* Divider */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

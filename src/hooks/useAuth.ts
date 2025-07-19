@@ -63,13 +63,21 @@ export function useAuth() {
     console.log('Creating profile for user:', user)
     
     try {
+      // Determine role based on email for demo purposes
+      let role: 'customer' | 'staff' | 'admin' = 'customer'
+      if (user.email === 'admin@medrewards.com') {
+        role = 'admin'
+      } else if (user.email === 'staff@medrewards.com') {
+        role = 'staff'
+      }
+      
       const profile: UserProfile = {
         id: user.id,
         email: user.email || '',
         name: user.user_metadata?.name || user.email?.split('@')[0] || 'User',
         phone_number: user.user_metadata?.phone_number || null,
         points_balance: 0,
-        role: 'customer',
+        role: role,
         clinic_id: null,
         two_factor_enabled: false,
         created_at: new Date().toISOString(),
