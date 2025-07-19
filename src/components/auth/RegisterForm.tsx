@@ -185,9 +185,6 @@ export function RegisterForm({ onToggleForm }: RegisterFormProps) {
                   ))}
                 </div>
                 <p className={`text-xs font-medium ${
-                  passwordStrength >= 3 ? 'text-green-600' : passwordStrength >= 2 ? 'text-yellow-600' : 'text-red-600'
-                }`}>
-                <p className={`text-xs font-medium ${
                   passwordStrength >= 3 ? 'text-green-400' : passwordStrength >= 2 ? 'text-yellow-400' : 'text-red-400'
                 }`}>
                   Password strength: {strengthLabels[passwordStrength - 1] || 'Very Weak'}
