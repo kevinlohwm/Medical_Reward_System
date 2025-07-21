@@ -141,6 +141,25 @@ export function StaffDashboard() {
 
     setLoading(true)
     try {
+      // Debug: Check if customer exists at all
+      console.log('=== DEBUG: Checking customer existence ===')
+      const { data: allCustomers, error: allError } = await supabase
+        .from('users')
+        .select('id, name, email, phone_number, points_balance, role')
+        .eq('email', 'kevinlohwm@gmail.com')
+      
+      console.log('All users with email kevinlohwm@gmail.com:', allCustomers)
+      console.log('Error:', allError)
+      
+      const { data: customerRoleUsers, error: roleError } = await supabase
+        .from('users')
+        .select('id, name, email, phone_number, points_balance, role')
+        .eq('role', 'customer')
+        .limit(5)
+      
+      console.log('First 5 customer role users:', customerRoleUsers)
+      console.log('Role error:', roleError)
+      
       // Try to parse as QR code data first
       let searchQuery = searchTerm
       try {
