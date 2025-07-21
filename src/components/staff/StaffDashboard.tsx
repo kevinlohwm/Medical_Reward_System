@@ -175,13 +175,19 @@ export function StaffDashboard() {
         .select('id, name, email, phone_number, points_balance')
         .eq('role', 'customer')
         .or(`email.ilike.%${searchQuery}%,name.ilike.%${searchQuery}%,phone_number.ilike.%${searchQuery}%`)
-        .limit(1)
-        .maybeSingle()
 
-      if (data && !error) {
-        setSelectedCustomer(data)
+      console.log('Search query:', searchQuery)
+      console.log('Search result:', { data, error })
+
+      if (error) {
+        console.error('Search error:', error)
+        setMessage('Error searching for customer')
+        setSelectedCustomer(null)
+      } else if (data && data.length > 0) {
+        setSelectedCustomer(data[0])
         setMessage('')
       } else {
+        console.log('No customer found for query:', searchQuery)
         setMessage('Customer not found')
         setSelectedCustomer(null)
       }
