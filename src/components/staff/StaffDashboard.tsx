@@ -176,7 +176,7 @@ export function StaffDashboard() {
         .eq('role', 'customer')
         .or(`email.ilike.%${searchQuery}%,name.ilike.%${searchQuery}%,phone_number.ilike.%${searchQuery}%`)
         .limit(1)
-        .single()
+        .maybeSingle()
 
       if (data && !error) {
         setSelectedCustomer(data)
