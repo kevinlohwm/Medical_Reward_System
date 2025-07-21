@@ -152,27 +152,33 @@ export function StaffDashboard() {
         // Not QR code data, continue with regular search
       }
 
-      // Build the query conditions based on whether searchQuery is a valid UUID
-      let orConditions = [
-        `email.ilike.%${searchQuery}%`,
-        `name.ilike.%${searchQuery}%`,
-        `phone_number.ilike.%${searchQuery}%`
-      ]
-
-      // Only add UUID search if the search query is a valid UUID
-      if (isValidUUID(searchQuery)) {
-        orConditions.unshift(`id.eq.${searchQuery}`)
-      }
-
-      const { data } = await supabase
+      let query = supabase
         .from('users')
         .select('id, name, email, phone_number, points_balance')
         .eq('role', 'customer')
-        .or(orConditions.join(','))
         .limit(1)
-        .maybeSingle()
 
-      if (data) {
+      // If it's a valid UUID, search by ID first
+      if (isValidUUID(searchQuery)) {
+        const { data: uuidData } = await query.eq('id', searchQuery).maybeSingle()
+        if (uuidData) {
+          setSelectedCustomer(uuidData)
+          setMessage('')
+          setLoading(false)
+          return
+        }
+      }
+
+      // Search by email, name, or phone
+      const { data, error } = await supabase
+        .from('users')
+        .select('id, name, email, phone_number, points_balance')
+        .eq('role', 'customer')
+        .or(`email.ilike.%${searchQuery}%,name.ilike.%${searchQuery}%,phone_number.ilike.%${searchQuery}%`)
+        .limit(1)
+        .single()
+
+      if (data && !error) {
         setSelectedCustomer(data)
         setMessage('')
       } else {
@@ -180,6 +186,7 @@ export function StaffDashboard() {
         setSelectedCustomer(null)
       }
     } catch (error) {
+      console.error('Search error:', error)
       setMessage('Customer not found')
       setSelectedCustomer(null)
     } finally {
